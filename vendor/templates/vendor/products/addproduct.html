@@ -1,0 +1,142 @@
+{% extends 'vendor/main.html' %}
+
+{% block admincontent %}
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <h3 class="text-center mb-4">Add Products</h3>
+            <button>
+                <a href="{% url 'vendor' %}">Back</a>
+            </button>
+            
+            <form method="POST" enctype="multipart/form-data" action="{% url 'addproduct' %}">
+                {% csrf_token %}
+                
+                <!-- Row 1: Product Title and Category -->
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label for="product_name" class="form-label">Product Title</label>
+                        <input type="text" class="form-control" name="product_name" 
+                               id="product_name" placeholder="Enter product name" required>
+                    </div>
+                    
+                    <div class="col-md-6">
+                        <label for="category" class="form-label">Category</label>
+                        <select name="category" class="form-control" id="category" required>
+                            <option value="">Select Category</option>
+                            {% for category in categories %}
+                                <option value="{{ category.id }}">{{ category.category_name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Row 2: Slug and Price -->
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label for="productslug" class="form-label">Slug</label>
+                        <input type="text" name="productslug" id="productslug" 
+                               placeholder="product-slug" class="form-control" required>
+                    </div>
+                    
+                    <div class="col-md-6">
+                        <label for="price" class="form-label">Price</label>
+                        <input type="number" name="price" id="price" 
+                               placeholder="Enter price" class="form-control" min="0" required>
+                    </div>
+                </div>
+
+                <!-- Row 3: Stock and Images -->
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label for="stock" class="form-label">Stock</label>
+                        <input type="number" name="stock" id="stock" 
+                               placeholder="Enter stock quantity" class="form-control" min="0" required>
+                    </div>
+                    
+                    <div class="col-md-6">
+                        <label for="images" class="form-label">Images</label>
+                        <input type="file" name="images" id="images" multiple 
+                               class="form-control" accept="image/*" max="5">
+                    </div>
+
+                    <!-- File count display -->
+                    <div class="mt-2">
+                        <small class="text-muted" id="fileCount">No files selected</small>
+                    </div>
+                    
+                    <!-- Error message -->
+                    <div class="invalid-feedback" id="imageError" style="display: none;">
+                        Please select maximum 5 images only.
+                    </div>
+                    
+                    <!-- Preview container -->
+                    <div class="mt-3" id="imagePreview" style="display: none;">
+                        <label class="form-label">Selected Images:</label>
+                        <div class="d-flex flex-wrap gap-2" id="previewContainer"></div>
+                    </div>
+                </div>
+
+                <!-- Row 4: Description (Full Width) -->
+                <div class="row mb-3">
+                    <div class="col-12">
+                        <label for="description" class="form-label">Description</label>
+                        <textarea name="product-description" id="description" 
+                                  placeholder="Enter product details" 
+                                  class="form-control" rows="3"></textarea>
+                    </div>
+                </div>
+
+                <!-- Row 5: Specification (Full Width) -->
+                <div class="row mb-3">
+                    <div class="col-12">
+                        <label for="specification" class="form-label">Specification</label>
+                        <textarea name="product-specification" id="specification" 
+                                  placeholder="Enter product specifications" 
+                                  class="form-control" rows="3"></textarea>
+                    </div>
+                </div>
+
+                <!-- Row 6: Availability Checkbox -->
+                <div class="row mb-3">
+                    <div class="col-12">
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input" 
+                                   id="is_available" name="is_available" value="1" checked>
+                            <label class="form-check-label" for="is_available">
+                                Product is available
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Submit Button -->
+                <div class="row">
+                    <div class="col-12 text-center">
+                        <button type="submit" class="btn btn-primary btn-sm">
+                            Add Product
+                        </button>
+                        <a href="#" class="btn btn-secondary btn-lg ms-2">
+                            Cancel
+                        </a>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Auto-generate slug from product name -->
+<script>
+document.getElementById('product_name').addEventListener('input', function() {
+    const name = this.value;
+    const slug = name.toLowerCase()
+                    .replace(/[^\w\s-]/g, '') // Remove special characters
+                    .replace(/\s+/g, '-')     // Replace spaces with hyphens
+                    .replace(/--+/g, '-')     // Replace multiple hyphens with single
+                    .trim('-');               // Remove leading/trailing hyphens
+    document.getElementById('productslug').value = slug;
+});
+</script>
+
+{% endblock admincontent %}

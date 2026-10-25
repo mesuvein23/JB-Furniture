@@ -1,0 +1,279 @@
+/* =========================================================
+   JB Furniture – Our Expertise
+   ========================================================= */
+
+:root {
+  --jb-red: #e00000;
+  --jb-black: #111111;
+  --jb-text: #555555;
+  --jb-border: #e8e8e8;
+}
+
+.jb-expertise {
+  padding: 90px 0;
+  background: #ffffff;
+}
+
+/* ---------- Heading ---------- */
+.jb-expertise .jb-section-head {
+  text-align: center;
+  max-width: 620px;
+  margin: 0 auto 50px;
+}
+
+.jb-expertise .jb-eyebrow {
+  display: inline-block;
+  color: var(--jb-red);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+
+.jb-expertise .jb-title {
+  font-size: 38px;
+  font-weight: 800;
+  color: var(--jb-black);
+  text-transform: uppercase;
+  margin-bottom: 15px;
+  position: relative;
+  padding-bottom: 15px;
+}
+
+.jb-expertise .jb-title::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  transform: translateX(-50%);
+  width: 60px;
+  height: 3px;
+  background: var(--jb-red);
+}
+
+.jb-expertise .jb-subtitle {
+  color: var(--jb-text);
+  font-size: 16px;
+  line-height: 1.7;
+  margin: 0;
+}
+
+/* ---------- Cards ---------- */
+.jb-expertise-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 25px;
+}
+
+.jb-exp-card {
+  flex: 0 1 calc(33.333% - 17px);
+  background: #ffffff;
+  border: 1px solid var(--jb-border);
+  border-radius: 10px;
+  padding: 0;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.35s ease, box-shadow 0.35s ease, border-color 0.35s ease;
+}
+
+.jb-exp-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 4px;
+  background: var(--jb-red);
+  transition: width 0.4s ease;
+  z-index: 3;
+}
+
+.jb-exp-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.08);
+  border-color: transparent;
+}
+
+.jb-exp-card:hover::before {
+  width: 100%;
+}
+
+/* image */
+.jb-exp-img {
+  height: 210px;
+  overflow: hidden;
+}
+
+.jb-exp-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.6s ease;
+}
+
+.jb-exp-card:hover .jb-exp-img img {
+  transform: scale(1.08);
+}
+
+/* text */
+.jb-exp-body {
+  padding: 0 28px 32px;
+}
+
+/* icon overlapping the image */
+.jb-exp-icon {
+  width: 70px;
+  height: 70px;
+  margin: -35px auto 18px;
+  border-radius: 50%;
+  background: #fff0f0;
+  border: 4px solid #ffffff;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  z-index: 2;
+  transition: background 0.35s ease, transform 0.35s ease;
+}
+
+.jb-exp-icon .material-symbols-outlined {
+  font-size: 34px;
+  color: var(--jb-red);
+  transition: color 0.35s ease;
+}
+
+.jb-exp-card:hover .jb-exp-icon {
+  background: var(--jb-red);
+  transform: rotate(-8deg) scale(1.05);
+}
+
+.jb-exp-card:hover .jb-exp-icon .material-symbols-outlined {
+  color: #ffffff;
+}
+
+.jb-exp-card h3 {
+  font-size: 19px;
+  font-weight: 700;
+  color: var(--jb-black);
+  margin-bottom: 12px;
+}
+
+.jb-exp-card p {
+  color: var(--jb-text);
+  font-size: 15px;
+  line-height: 1.7;
+  margin: 0;
+}
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
+/* ---------- Small laptops (≤1199px) ---------- */
+@media (max-width: 1199px) {
+  .jb-expertise-grid {
+    gap: 20px;
+  }
+
+  .jb-exp-card {
+    flex: 0 1 calc(33.333% - 14px);
+  }
+
+  .jb-exp-img {
+    height: 190px;
+  }
+
+  .jb-exp-body {
+    padding: 0 22px 28px;
+  }
+}
+
+/* ---------- Tablets (≤991px): 2 per row ---------- */
+@media (max-width: 991px) {
+  .jb-expertise {
+    padding: 70px 0;
+  }
+
+  .jb-expertise .jb-section-head {
+    margin-bottom: 40px;
+  }
+
+  .jb-expertise .jb-title {
+    font-size: 32px;
+  }
+
+  .jb-exp-card {
+    flex: 0 1 calc(50% - 10px);
+  }
+
+  .jb-exp-img {
+    height: 200px;
+  }
+}
+
+/* ---------- Phones (≤575px): 1 per row ---------- */
+@media (max-width: 575px) {
+  .jb-expertise {
+    padding: 55px 0;
+  }
+
+  .jb-expertise .jb-section-head {
+    margin-bottom: 30px;
+    padding: 0 10px;
+  }
+
+  .jb-expertise .jb-eyebrow {
+    font-size: 12px;
+  }
+
+  .jb-expertise .jb-title {
+    font-size: 26px;
+  }
+
+  .jb-expertise .jb-subtitle {
+    font-size: 15px;
+  }
+
+  .jb-expertise-grid {
+    gap: 18px;
+  }
+
+  .jb-exp-card {
+    flex: 0 1 100%;
+  }
+
+  .jb-exp-img {
+    height: 180px;
+  }
+
+  .jb-exp-body {
+    padding: 0 20px 26px;
+  }
+
+  .jb-exp-icon {
+    width: 60px;
+    height: 60px;
+    margin: -30px auto 14px;
+  }
+
+  .jb-exp-icon .material-symbols-outlined {
+    font-size: 28px;
+  }
+
+  .jb-exp-card h3 {
+    font-size: 18px;
+  }
+
+  .jb-exp-card p {
+    font-size: 14px;
+  }
+
+  .jb-exp-card:hover {
+    transform: none;
+  }
+}

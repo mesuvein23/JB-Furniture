@@ -1,0 +1,70 @@
+{% extends 'vendor/main.html' %}
+{% load static %}
+
+    {% block title %}
+      <title>Vendor Login</title>
+    {% endblock title %}
+
+   
+    {% block customcss %}
+   
+    {% endblock customcss %}
+
+  </head>
+  <body>
+  {% block content %}
+    <div class="container">
+        <div class="row justify-content-center">
+            <a class="" style="text-align: center; margin-top: 40px;" >
+                <img src="{% static 'images/jblogo.jpg' %}" width="80" height="80" alt="jblogo">
+            </a>
+          <div class="col-sm-6">
+            <form action="{% url 'login' %}" enctype="multipart/form-data" method="POST">
+              {% csrf_token %}
+              <!-- Email input -->
+              <div class="mb-4">  
+                <label for="inputEmail" class="form-label">Email address</label>
+                <input type="text" name="loginuser" id="inputEmail" class="form-control" />
+              </div>
+            
+              <!-- Password input -->
+              <div class="mb-4">
+                <label for="inputPassword" class="form-label">Password</label>
+                <input type="password" name="login_password" id="inputPassword" class="form-control" />
+              </div>
+            
+              <!-- Remember me and Forgot password -->
+              <div class="row mb-4">
+                <div class="col">
+                  <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="rememberCheck" checked />
+                    <label class="form-check-label" for="rememberCheck">Remember me</label>
+                  </div>
+                </div>
+                <div class="col text-end">
+                  <a href="#!" class="text-decoration-none">Forgot password?</a>
+                </div>
+              </div>
+            
+              <!-- Sign in button -->
+              <button type="submit" class="btn btn-primary btn-block mb-4" style="display: block; margin: 0 auto;">Sign in</button>
+
+            
+              <!-- Register and social buttons -->
+              <div class="text-center">
+                <p class="mb-2">Not a member? <a href="{% url 'register' %}" class="text-decoration-none">Register</a></p>
+                <p class="mb-4">or sign up with:</p>
+            
+                <div class="d-flex justify-content-center">
+                  <button type="button" class="btn btn-link btn-floating mx-1"><i class="fa fa-facebook-f"></i></button>
+                  <button type="button" class="btn btn-link btn-floating mx-1"><i class="fa fa-google"></i></button>
+                  <button type="button" class="btn btn-link btn-floating mx-1"><i class="fa fa-twitter"></i></button>
+                  <button type="button" class="btn btn-link btn-floating mx-1"><i class="fa fa-github"></i></button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+
+ {% endblock content %}

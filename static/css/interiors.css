@@ -1,0 +1,61 @@
+.interblog {
+    position: relative;
+    width: 100%;
+    /* or a specific width, like 600px */
+    height: 400px;
+    /* adjust this height as needed */
+    overflow: hidden;
+}
+
+
+.interblog img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    /* Ensures the image covers the area */
+    object-position: center;
+    display: block;
+}
+
+.blogtitle {
+    padding-top: 20px;
+    text-align: center;
+}
+
+.breadcrumb-wrapper {
+    padding-top: 20px;
+    display: flex;
+    justify-content: center;
+}
+
+
+.interiorImg {
+    /* padding-left: 150px; */
+    /* padding-right: 150px; */
+    width: 60%;
+    height: 400px;
+    object-position: center;
+    object-fit: cover;
+    /* Ensures the image covers the area */
+    display: block;
+    margin: 0 auto;
+}
+
+.blog-title{
+    text-align: center;
+    padding-bottom: 20px;
+    padding-top: 20px;
+}
+
+.blog-text {
+    width: 60%;         /* Match image width */
+    margin: 0 auto;     /* Center the text block */
+    text-align: center;   /* Optional: change to center if you want centered text */
+}
+
+.blog-post{
+    padding-bottom: 40px;
+}

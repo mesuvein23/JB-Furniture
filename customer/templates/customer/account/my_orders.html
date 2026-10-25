@@ -1,0 +1,111 @@
+{% extends 'base.html' %}
+
+{% block title %}
+<title>My Orders | JB Furniture</title>
+{% endblock title %}
+
+{% block content %}
+<div class="container py-4">
+  <div class="row">
+    <div class="col-lg-12">
+
+      <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3">
+        <div>
+          <h3 class="mb-1 fw-bold">My Orders</h3>
+          <p class="text-muted mb-0">Hi {{ user.first_name|default:user.username }}, here's the status of your orders.</p>
+        </div>
+        <a class="btn btn-outline-dark" href="{% url 'home' %}">&#x2190; Continue Shopping</a>
+      </div>
+
+      {% for message in messages %}
+        <div class="alert alert-success">{{ message }}</div>
+      {% endfor %}
+
+      {% if orders %}
+      <div class="table-responsive">
+        <table class="table align-middle">
+          <thead class="table-light">
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Tracking No.</th>
+              <th scope="col">Date</th>
+              <th scope="col">Items</th>
+              <th scope="col" class="text-center">Total</th>
+              <th scope="col" class="text-center">Payment</th>
+              <th scope="col" class="text-center">Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for order in orders %}
+            <tr>
+              <!-- Number -->
+              <th scope="row">
+                <span class="text-muted">{{ forloop.counter }}</span>
+              </th>
+
+              <!-- Tracking number -->
+              <td>
+                <span class="fw-bold">{{ order.tracking_no }}</span>
+              </td>
+
+              <!-- Date -->
+              <td class="text-nowrap">
+                {{ order.created_at|date:"d M Y" }}<br>
+                <small class="text-muted">{{ order.created_at|date:"h:i A" }}</small>
+              </td>
+
+              <!-- Items -->
+              <td>
+                {% for item in order.orderitem_set.all %}
+                  <div class="small">
+                    {{ item.product.product_name }}
+                    <span class="text-muted">× {{ item.quantity }}</span>
+                  </div>
+                {% endfor %}
+              </td>
+
+              <!-- Total -->
+              <td class="text-center">
+                <span class="fw-bold text-success">${{ order.total_price }}</span>
+              </td>
+
+              <!-- Payment -->
+              <td class="text-center">
+                <small>{{ order.payment_mode|default:"-" }}</small>
+              </td>
+
+              <!-- Status -->
+              <td class="text-center">
+                {% if order.status == 'Pending' %}
+                  <span class="badge bg-warning text-dark px-3 py-2">Pending</span>
+                {% elif order.status == 'Out For Shipping' %}
+                  <span class="badge bg-primary px-3 py-2">Out For Shipping</span>
+                {% elif order.status == 'Completed' %}
+                  <span class="badge bg-success px-3 py-2">Completed</span>
+                {% else %}
+                  <span class="badge bg-secondary px-3 py-2">{{ order.status }}</span>
+                {% endif %}
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+
+      <p class="text-muted">{{ orders|length }} order{{ orders|length|pluralize }} in total</p>
+
+      {% else %}
+
+      <div class="text-center py-5">
+        <i class="fa fa-box-open fa-4x text-muted mb-3 d-block"></i>
+        <h2>No Orders Yet</h2>
+        <p class="text-muted">When you place an order while logged in, it will show up here.</p>
+        <a href="{% url 'sale' %}" class="btn btn-outline-dark">Start Shopping</a>
+      </div>
+
+      {% endif %}
+
+    </div>
+  </div>
+</div>
+{% endblock content %}

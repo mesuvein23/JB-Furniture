@@ -1,0 +1,83 @@
+{% load static %}
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="row gy-4">
+
+      <!-- About -->
+      <div class="col-12 col-md-6 col-lg-3">
+        <h5 class="footer-heading">JAYA BARAHI FURNITURE</h5>
+        <p class="footer-tagline">Where every piece tells a story, and every home feels complete.</p>
+        <div class="footer-social">
+          <a href="https://www.facebook.com/jaybarahifurniture" target="_blank" rel="noopener" aria-label="Facebook">
+            <i class="fa-brands fa-facebook-f"></i>
+          </a>
+          <a href="https://www.instagram.com/_jbfurniture/" target="_blank" rel="noopener" aria-label="Instagram">
+            <i class="fa-brands fa-instagram"></i>
+          </a>
+          <a href="https://wa.me/9779801822861" target="_blank" rel="noopener" aria-label="WhatsApp">
+            <i class="fa-brands fa-whatsapp"></i>
+          </a>
+          <a href="https://www.youtube.com/@jbfurniture5966" target="_blank" rel="noopener" aria-label="YouTube">
+            <i class="fa-brands fa-youtube"></i>
+          </a>
+          <a href="#" target="_blank" rel="noopener" aria-label="Google">
+            <i class="fa-brands fa-google"></i>
+          </a>
+        </div>
+      </div>
+
+      <!-- Quick Links -->
+      <div class="col-6 col-md-3 col-lg-2">
+        <h5 class="footer-heading">QUICK LINKS</h5>
+        <ul class="footer-links">
+            <li><a href="{% url 'home' %}">Home</a></li>
+            <li><a href="#">Shop</a></li>
+            <li><a href="#">Our Services</a></li>
+            <li><a href="#">About Us</a></li>
+            <li><a href="{% url 'cart' %}">My Cart</a></li>
+        </ul>
+      </div>
+
+      <!-- Company -->
+      <div class="col-6 col-md-3 col-lg-3">
+        <h5 class="footer-heading">SERVICES</h5>
+        <ul class="footer-links">
+          <li><a href="#">Interior Design</a></li>
+          <li><a href="#">Furniture</a></li>
+          <li><a href="#">Renovation</a></li>
+          <li><a href="#">Consultation</a></li>
+        </ul>
+      </div>
+
+      <!-- Contact -->
+      <div class="col-12 col-md-6 col-lg-4">
+        <h5 class="footer-heading">GET IN TOUCH</h5>
+        <ul class="footer-links footer-contact">
+          <li>
+            <i class="fa-solid fa-location-dot"></i>
+            <a href="https://www.google.com/maps/search/?api=1&query=Jaya+Barahi+Furniture+Bhaktapur" target="_blank" rel="noopener">
+              Bhaktapur, Nepal
+            </a>
+          </li>
+          <li>
+            <i class="fa-solid fa-phone"></i>
+            <a href="tel:+9779801822861">9801822861</a>
+          </li>
+          <li>
+            <i class="fa-solid fa-envelope"></i>
+            <a href="mailto:jayabarahifurniture@gmail.com">jayabarahifurniture@gmail.com</a>
+          </li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Bottom bar -->
+  <div class="footer-bottom">
+    <div class="container">
+      <p class="mb-0">© {% now "Y" %} Jaya Barahi Furniture. All rights reserved.</p>
+    </div>
+  </div>
+</footer>

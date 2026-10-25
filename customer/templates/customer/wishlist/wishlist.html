@@ -1,0 +1,108 @@
+{% extends 'base.html' %}
+
+{% block title %}
+<title>Wishlist</title>
+{% endblock title %}
+
+{% block content %}
+<div class="container">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="box-element">
+        <a class="btn btn-outline-dark" href="{% url 'home' %}">&#x2190; Continue Shopping</a><br>
+      </div>
+
+      <br>
+
+      {% for message in messages %}
+        <div class="alert alert-success">{{ message }}</div>
+      {% endfor %}
+
+      {% if items %}
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Image</th>
+            <th scope="col">Title</th>
+            <th scope="col" class="text-center">Price</th>
+            <th scope="col" class="text-center">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for item in items %}
+          {% with p=item.product %}
+          <tr class="align-middle">
+            <!-- Number -->
+            <th scope="row" class="align-middle">
+              <span class="text-muted">{{ forloop.counter }}</span>
+            </th>
+
+            <!-- Product Image -->
+            <td class="align-middle">
+              <a href="{{ p.get_url }}">
+                {% if p.get_first_image %}
+                <img class="rounded" src="{{ p.get_first_image }}" alt="{{ p.product_name }}"
+                  style="height: 60px; width: 60px; object-fit: cover;">
+                {% else %}
+                <div class="text-muted small">No image</div>
+                {% endif %}
+              </a>
+            </td>
+
+            <!-- Product Name -->
+            <td class="align-middle">
+              <a href="{{ p.get_url }}" class="text-dark text-decoration-none">
+                <h6 class="mb-0">{{ p.product_name }}</h6>
+              </a>
+              {% if not p.is_available %}
+                <small class="text-danger">Currently unavailable</small>
+              {% endif %}
+            </td>
+
+            <!-- Price -->
+            <td class="align-middle text-center">
+              <span class="fw-bold text-success">Rs {{ p.price }}/-</span>
+            </td>
+
+            <!-- Actions -->
+            <td class="align-middle text-center">
+              <div class="d-flex justify-content-center gap-2">
+                {% if p.is_available %}
+                <a href="{% url 'add_cart' p.id %}" class="btn btn-outline-dark btn-sm" title="Add to cart">
+                  <i class="fa fa-shopping-cart"></i> Add to Cart
+                </a>
+                {% endif %}
+
+                <form method="post" action="{% url 'toggle_wishlist' p.id %}" class="m-0"
+      data-confirm="Remove {{ p.product_name }} from your wishlist?">
+                  {% csrf_token %}
+                  <button type="submit" class="btn btn-danger btn-sm" title="Remove item">
+                    <i class="fa fa-trash"></i> Remove
+                  </button>
+                </form>
+              </div>
+            </td>
+          </tr>
+          {% endwith %}
+          {% endfor %}
+        </tbody>
+      </table>
+
+      <p class="text-muted">{{ items|length }} item{{ items|length|pluralize }} in your wishlist</p>
+
+      {% else %}
+
+      <div class="text-center py-5">
+        <i class="fa fa-heart fa-4x text-muted mb-3 d-block"></i>
+        <h2>Your Wishlist is Empty</h2>
+        <p class="text-muted">Tap the heart on any product to save it here.</p>
+        <a href="{% url 'sale' %}" class="btn btn-outline-dark">Start Shopping</a>
+      </div>
+
+      {% endif %}
+
+    </div>
+  </div>
+</div>
+{% endblock content %}

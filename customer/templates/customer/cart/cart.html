@@ -1,0 +1,124 @@
+{% extends 'base.html' %}
+
+{% block title %}
+<title>Cart</title>
+{% endblock title %}
+
+{% block content %}
+<div class="container">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="box-element">
+        <a class="btn btn-outline-dark" href="{% url 'home' %}">&#x2190; Continue Shopping</a><br>
+      </div>
+
+      <br>
+
+      {% if cart_items %}
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Image</th>
+            <th scope="col">Title</th>
+            <th scope="col">Quantity</th>
+            <th scope="col">Price</th>
+            <th scope="col">Total</th>
+            <th scope="col">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for item in cart_items %}
+          <tr class="cart-item-row product_data" data-product-id="{{ item.product.id }}">
+            <!-- Product ID -->
+            <th scope="row" class="align-middle">
+              <span class="text-muted">{{ forloop.counter }}</span>
+            </th>
+
+            <!-- Product Image -->
+            <td class="align-middle">
+              {% if item.product.get_first_image %}
+              <img class="cart-product-image rounded" src="{{ item.product.get_first_image }}"
+                alt="{{ item.product.product_name }}" style="height: 60px; width: 60px; object-fit: cover;">
+              {% else %}
+              <div class="text-muted small">No image</div>
+              {% endif %}
+            </td>
+
+            <!-- Product Name -->
+            <td class="align-middle">
+              <div class="product-info">
+                <h6 class="mb-0">{{ item.product.product_name }}</h6>
+                {% if item.product.description %}
+                <!-- <small class="text-muted">{{ item.product.description|truncatewords:5 }}</small> -->
+                {% endif %}
+              </div>
+            </td>
+
+            <!-- Quantity Controls -->
+            <td class="align-middle">
+              <div class="quantity-controls d-flex align-items-center justify-content-center">
+                <a href="{% url 'remove_cart' item.product.id %}" class="btn btn-outline-secondary btn-sm quantity-btn"
+                  title="Decrease quantity">
+                  <i class="fa fa-minus"></i>
+                </a>
+
+                <input type="text" name="quantity" class="form-control qty-input mx-2 text-center"
+                  value="{{ item.quantity }}" style="width: 60px;" readonly>
+
+                <a href="{% url 'add_cart' item.product.id %}" class="btn btn-outline-secondary btn-sm quantity-btn"
+                  title="Increase quantity">
+                  <i class="fa fa-plus"></i>
+                </a>
+              </div>
+            </td>
+
+            <!-- Unit Price -->
+            <td class="align-middle text-center">
+              <span class="fw-bold text-success">Rs {{ item.product.price }}/-</span>
+            </td>
+
+            <!-- Subtotal -->
+            <td class="align-middle text-center">
+              <span class="fw-bold text-primary">Rs {{ item.sub_total }}/-</span>
+            </td>
+
+            <!-- Remove Button -->
+            <td class="align-middle text-center">
+              <a href="{% url 'remove_cart_items' item.product.id %}" class="btn btn-danger btn-sm"
+   data-confirm="Remove {{ item.product.product_name }} from your cart?"
+   title="Remove item">
+  <i class="fa fa-trash"></i> Remove
+</a>
+            </td>
+          </tr>
+          {% empty %}
+          <tr>
+            <td colspan="7" class="text-center py-5">
+              <div class="empty-cart">
+                <i class="fa fa-shopping-cart fa-4x text-muted mb-3 d-block"></i>
+                <h4 class="text-muted mb-2">Your cart is empty</h4>
+                <p class="text-muted mb-3">Add some products to get started!</p>
+                <a href="{% url 'shop' %}" class="btn btn-primary">
+                  <i class="fa fa-shopping-bag me-2"></i>Continue Shopping
+                </a>
+              </div>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+              <p class="text-muted">{{ quantity }} item{{ quantity|pluralize }} in your cart · Total: <strong>Rs {{ total }}/-</strong></p>
+      </table>
+
+      <a href="{% url 'checkout' %}" class="btn btn-outline-dark">Checkout</a>
+
+      {% else %}
+
+      <h2 style="text-align: center;">Your Shopping Cart is Empty</h2>
+
+      {% endif %}
+
+    </div>
+  </div>
+</div>
+{% endblock content %}

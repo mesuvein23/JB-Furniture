@@ -1,0 +1,135 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+<title>JB Furniture – Sofas, Beds & Custom Furniture in Kathmandu</title>
+{% endblock title %}
+
+{% block meta_description %}Shop handcrafted sofas, beds, dining sets and custom furniture at Jaya Barahi Furniture, Kathmandu. Solid wood craftsmanship, free consultation, delivery and installation.{% endblock meta_description %}
+
+{% block og_title %}Jaya Barahi Furniture – Handcrafted Furniture in Kathmandu{% endblock og_title %}
+
+{% block og_image %}{{ request.scheme }}://{{ request.get_host }}{% static 'images/sofa.jpeg' %}{% endblock og_image %}
+
+{% block structured_data %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FurnitureStore",
+  "name": "Jaya Barahi Furniture",
+  "alternateName": "JB Furniture",
+  "url": "{{ request.scheme }}://{{ request.get_host }}/",
+  "logo": "{{ request.scheme }}://{{ request.get_host }}{% static 'images/jblogo.jpg' %}",
+  "image": "{{ request.scheme }}://{{ request.get_host }}{% static 'images/sofa.jpeg' %}",
+  "telephone": "+977-980-0000000",
+  "email": "jayabarahifurniture@gmail.com",
+  "priceRange": "Rs",
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "Your street address",
+    "addressLocality": "Kathmandu",
+    "addressCountry": "NP"
+  },
+  "openingHoursSpecification": [{
+    "@type": "OpeningHoursSpecification",
+    "dayOfWeek": ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+    "opens": "10:00",
+    "closes": "19:00"
+  }],
+  "sameAs": [
+    "https://www.facebook.com/yourpage",
+    "https://www.instagram.com/yourpage"
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": "JB Furniture",
+  "url": "{{ request.scheme }}://{{ request.get_host }}/",
+  "potentialAction": {
+    "@type": "SearchAction",
+    "target": "{{ request.scheme }}://{{ request.get_host }}{% url 'search' %}?query={search_term_string}",
+    "query-input": "required name=search_term_string"
+  }
+}
+</script>
+{% endblock structured_data %}
+
+{% block customcss %}
+<link rel="stylesheet" href="{% static 'css/owl.carousel.min.css' %}">
+<link rel="stylesheet" href="{% static 'css/owl.theme.default.min.css' %}">
+<link rel="stylesheet" href="{% static 'css/home.css' %}">
+{% endblock customcss %}
+
+{% block content %}
+
+<!-- ================= HERO ================= -->
+<section class="hero-wrap">
+  <div id="carouselExample" class="carousel slide carousel-fade hero-carousel" data-bs-ride="carousel" data-bs-interval="5000">
+    <div class="carousel-inner">
+
+      <div class="carousel-item active">
+        <img src="{% static 'images/sofa.jpeg' %}" class="d-block w-100"
+             alt="Handcrafted fabric sofa by Jaya Barahi Furniture"
+             fetchpriority="high">
+      </div>
+
+      <div class="carousel-item">
+        <img src="{% static 'images/carousel3.jpeg' %}" class="d-block w-100"
+             alt="Living room furniture set with sofa and coffee table"
+             loading="lazy">
+      </div>
+
+      <div class="carousel-item">
+        <img src="{% static 'images/designs9.jpg' %}" class="d-block w-100"
+             alt="Solid wood bedroom furniture set"
+             loading="lazy">
+      </div>
+
+    </div>
+
+    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Previous</span>
+    </button>
+
+    <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Next</span>
+    </button>
+  </div>
+
+  <!-- Hero text (stays fixed while images slide) -->
+  <div class="hero-caption">
+    <div class="container">
+      <span class="hero-eyebrow">Jaya Barahi Furniture</span>
+      <h1 class="hero-title">Handcrafted Furniture<br>in Kathmandu</h1>
+      <p class="hero-text">Sofas, beds, dining sets and custom pieces, built to last and delivered to your home.</p>
+      <div class="hero-actions">
+        <a href="{% url 'products' %}" class="hero-btn hero-btn--primary">Shop Now</a>
+        <a href="{% url 'contact' %}?quote=1" class="hero-btn hero-btn--outline">Get a Quote</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= MAIN SECTIONS ================= -->
+<div class="homeContainer">
+  {% include 'customer/products/sale.html' %}
+  {% include 'customer/main/ourservices.html' %}
+</div>
+
+{% include 'customer/main/feature.html' %}
+{% include 'customer/main/process.html' %}
+{% include 'customer/main/calltoaction.html' %}
+{# {% include 'customer/main/blogs/blogs.html' %} #}
+
+<hr class="home-divider">
+
+{% endblock content %}
+
+{% block script %}
+<script src="{% static 'js/owl.carousel.min.js' %}"></script>
+{% endblock script %}

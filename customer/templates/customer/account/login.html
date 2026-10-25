@@ -1,0 +1,83 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}<title>Log In | JB Furniture</title>{% endblock title %}
+
+{% block customcss %}
+<link rel="stylesheet" href="{% static 'account/auth.css' %}">
+{% endblock customcss %}
+
+{% block content %}
+<section class="auth-page">
+  <div class="auth-card">
+
+    <aside class="auth-side">
+      <span class="auth-eyebrow">JB Furniture</span>
+      <h2>Welcome back<span>.</span></h2>
+      <p>Log in to check out faster and keep track of everything you love.</p>
+      <ul class="auth-perks">
+        <li><span class="material-symbols-outlined">local_shipping</span>Track your orders</li>
+        <li><span class="material-symbols-outlined">favorite</span>Wishlist on every device</li>
+        <li><span class="material-symbols-outlined">bolt</span>Faster checkout</li>
+      </ul>
+    </aside>
+
+    <div class="auth-main">
+      <h3>Log in</h3>
+      <p class="auth-sub">New here? <a href="{% url 'account_signup' %}{% if request.GET.next %}?next={{ request.GET.next|urlencode }}{% endif %}">Create an account</a></p>
+
+      {% if request.GET.next == '/checkout/' %}
+        <div class="auth-notice">
+          <span class="material-symbols-outlined">shopping_cart</span>
+          Your cart is saved. Log in to complete your order.
+        </div>
+      {% endif %}
+
+      {% for message in messages %}
+        <div class="auth-notice">{{ message }}</div>
+      {% endfor %}
+
+      {% if form.non_field_errors %}
+        <div class="auth-error-box">{{ form.non_field_errors.0 }}</div>
+      {% endif %}
+
+      <form method="post" novalidate>
+        {% csrf_token %}
+        <input type="hidden" name="next" value="{{ request.GET.next }}">
+
+        <div class="auth-field">
+          <label for="{{ form.username.id_for_label }}">Email</label>
+          {{ form.username }}
+        </div>
+
+        <div class="auth-field">
+          <label for="{{ form.password.id_for_label }}">Password</label>
+          <div class="auth-pass">
+            {{ form.password }}
+            <button type="button" class="auth-eye" aria-label="Show password">
+              <span class="material-symbols-outlined">visibility</span>
+            </button>
+          </div>
+        </div>
+
+        <button type="submit" class="auth-btn">Log In</button>
+      </form>
+    
+      <a href="{% url 'password_reset' %}" class="auth-forgot">Forgot password?</a>
+      <a href="{% url 'sale' %}" class="auth-guest">or continue shopping as a guest &rarr;</a>
+    </div>
+
+  </div>
+</section>
+
+<script>
+  document.querySelectorAll('.auth-eye').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var input = btn.parentElement.querySelector('input');
+      var show = input.type === 'password';
+      input.type = show ? 'text' : 'password';
+      btn.querySelector('span').textContent = show ? 'visibility_off' : 'visibility';
+    });
+  });
+</script>
+{% endblock content %}

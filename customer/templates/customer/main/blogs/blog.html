@@ -1,0 +1,129 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+<title>{{ all_blog.interior_title }} | JB Furniture Blog</title>
+{% endblock title %}
+
+{% block meta_description %}{{ all_blog.blog_description|striptags|truncatechars:155 }}{% endblock meta_description %}
+
+{% block og_type %}article{% endblock og_type %}
+{% block og_title %}{{ all_blog.interior_title }}{% endblock og_title %}
+{% block og_description %}{{ all_blog.blog_description|striptags|truncatechars:150 }}{% endblock og_description %}
+{% block og_image %}{% if all_blog.blog_images %}{{ request.scheme }}://{{ request.get_host }}{{ all_blog.blog_images.url }}{% else %}{{ request.scheme }}://{{ request.get_host }}{% static 'images/jblogo.jpg' %}{% endif %}{% endblock og_image %}
+
+{% block structured_data %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "{{ all_blog.interior_title|escapejs }}",
+  "description": "{{ all_blog.blog_description|striptags|truncatechars:155|escapejs }}",
+  {% if all_blog.blog_images %}"image": "{{ request.scheme }}://{{ request.get_host }}{{ all_blog.blog_images.url }}",{% endif %}
+  {% if all_blog.created_at %}"datePublished": "{{ all_blog.created_at|date:'c' }}",{% endif %}
+  "author": {"@type": "Organization", "name": "Jaya Barahi Furniture"},
+  "publisher": {
+    "@type": "Organization",
+    "name": "Jaya Barahi Furniture",
+    "logo": {"@type": "ImageObject", "url": "{{ request.scheme }}://{{ request.get_host }}{% static 'images/jblogo.jpg' %}"}
+  },
+  "mainEntityOfPage": "{{ request.scheme }}://{{ request.get_host }}{{ request.path }}"
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {"@type": "ListItem", "position": 1, "name": "Home", "item": "{{ request.scheme }}://{{ request.get_host }}{% url 'home' %}"},
+    {"@type": "ListItem", "position": 2, "name": "Blog", "item": "{{ request.scheme }}://{{ request.get_host }}{% url 'blogs' %}"},
+    {"@type": "ListItem", "position": 3, "name": "{{ all_blog.interior_title|escapejs }}", "item": "{{ request.scheme }}://{{ request.get_host }}{{ request.path }}"}
+  ]
+}
+</script>
+{% endblock structured_data %}
+
+{% block customcss %}
+<link rel="stylesheet" href="{% static 'blog/blog.css' %}">
+{% endblock customcss %}
+
+{% block content %}
+<div class="container blog-page">
+
+  <!-- Breadcrumb -->
+  <nav aria-label="breadcrumb" class="mt-3">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
+      <li class="breadcrumb-item"><a href="{% url 'blogs' %}">Blog</a></li>
+      <li class="breadcrumb-item active" aria-current="page">{{ all_blog.interior_title }}</li>
+    </ol>
+  </nav>
+
+  <article class="post">
+
+    <!-- Post header -->
+    <header class="post-header">
+      <span class="blog-eyebrow">Design Ideas</span>
+      <h1 class="post-title">{{ all_blog.interior_title }}</h1>
+      {% if all_blog.created_at %}
+        <p class="post-meta">
+          By Jaya Barahi Furniture ·
+          <time datetime="{{ all_blog.created_at|date:'Y-m-d' }}">{{ all_blog.created_at|date:"F j, Y" }}</time>
+        </p>
+      {% endif %}
+    </header>
+
+    <!-- Featured image -->
+    {% if all_blog.blog_images %}
+      <figure class="post-image">
+        <img src="{{ all_blog.blog_images.url }}" alt="{{ all_blog.interior_title }}" fetchpriority="high">
+      </figure>
+    {% endif %}
+
+    <!-- Content -->
+    <div class="post-content">
+      {{ all_blog.blog_description|safe }}
+    </div>
+
+    <!-- Call to action -->
+    <aside class="post-cta">
+      <h2>Love these ideas?</h2>
+      <p>Explore our furniture collection or talk to us about a custom piece for your home.</p>
+      <div class="post-cta-actions">
+        <a href="{% url 'products' %}" class="post-btn post-btn--primary">Shop Furniture</a>
+        <a href="{% url 'contact' %}?quote=1" class="post-btn post-btn--outline">Get a Quote</a>
+      </div>
+    </aside>
+
+    <a href="{% url 'blogs' %}" class="blog-read-more mt-4 d-inline-block">&larr; Back to all posts</a>
+  </article>
+
+  <!-- More posts -->
+  {% if more_posts %}
+  <section class="more-posts">
+    <h2 class="more-posts-title">More design ideas</h2>
+    <div class="blog-grid">
+      {% for i in more_posts %}
+      <article class="blog-card">
+        <a href="{% url 'blog_detail' i.slug %}" class="blog-card-img">
+          {% if i.blog_images %}
+            <img src="{{ i.blog_images.url }}" alt="{{ i.interior_title }}" loading="lazy">
+          {% else %}
+            <div class="blog-noimg">No image</div>
+          {% endif %}
+        </a>
+        <div class="blog-card-body">
+          {% if i.created_at %}
+            <time datetime="{{ i.created_at|date:'Y-m-d' }}" class="blog-date">{{ i.created_at|date:"F j, Y" }}</time>
+          {% endif %}
+          <h3 class="blog-card-title"><a href="{% url 'blog_detail' i.slug %}">{{ i.interior_title }}</a></h3>
+          <a href="{% url 'blog_detail' i.slug %}" class="blog-read-more">Read more &rarr;</a>
+        </div>
+      </article>
+      {% endfor %}
+    </div>
+  </section>
+  {% endif %}
+
+</div>
+{% endblock content %}

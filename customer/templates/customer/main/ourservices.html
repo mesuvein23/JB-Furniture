@@ -1,0 +1,49 @@
+{% load static %}
+
+{% block customcss %}
+
+{% endblock customcss %}
+
+
+{% block content %}
+
+<section class="services">
+  <h1>WHAT WE DO</h1>
+  <hr>
+
+  <div class="services-grid">
+
+    <a href="#" class="service-card">
+      <img src="{% static 'images/designs68.jpg' %}" alt="Kitchen interior design" loading="lazy">
+      <span class="service-label">Kitchen</span>
+    </a>
+
+    <a href="#" class="service-card">
+      <img src="{% static 'images/designs9.jpg' %}" alt="Banquet hall interior design" loading="lazy">
+      <span class="service-label">Banquet</span>
+    </a>
+
+    <a href="#" class="service-card">
+      <img src="{% static 'images/furniture.jpeg' %}" alt="Living room interior design" loading="lazy">
+      <span class="service-label">Living Room</span>
+    </a>
+
+    <a href="#" class="service-card">
+      <img src="{% static 'images/furniture22.jpeg' %}" alt="Bedroom furniture design" loading="lazy">
+      <span class="service-label">Bedroom</span>
+    </a>
+
+    <a href="#" class="service-card">
+      <img src="{% static 'images/table3.jpeg' %}" alt="Office furniture design" loading="lazy">
+      <span class="service-label">Office</span>
+    </a>
+
+    <a href="#" class="service-card">
+      <img src="{% static 'images/designs71.jpeg' %}" alt="Restaurant furniture design" loading="lazy">
+      <span class="service-label">Restaurant</span>
+    </a>
+
+  </div>
+</section>
+
+{% endblock content %}

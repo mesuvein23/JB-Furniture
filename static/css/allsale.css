@@ -1,0 +1,22 @@
+.saleProductImage {
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
+    border-top-left-radius: 0.25rem;
+    border-top-right-radius: 0.25rem;
+  }
+
+  @media (max-width: 576px) {
+    .saleProductImage {
+      height: 180px;
+    }
+
+    h5 {
+      font-size: 1rem;
+    }
+
+    .addToCartBtn {
+      font-size: 0.9rem;
+      padding: 6px 12px;
+    }
+  }

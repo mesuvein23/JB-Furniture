@@ -1,0 +1,43 @@
+{% load static %}
+
+{% block customcss %}
+
+{% endblock customcss %}
+
+{% block content %}
+
+<!-- ================= CALL TO ACTION ================= -->
+<section class="jb-cta" style="--jb-cta-bg: url('{% static 'images/cta/cta-bg.jpg' %}');">
+  <div class="jb-cta-overlay"></div>
+
+  <div class="container jb-cta-inner">
+    <span class="jb-cta-eyebrow">Let's get started</span>
+
+    <h2 class="jb-cta-title">
+      Ready to Build and Design <span>Your Dream Home?</span>
+    </h2>
+
+    <p class="jb-cta-text">
+      Talk to our team about your space, style and budget. We'll help you plan the perfect furniture for every room.
+    </p>
+
+    <div class="jb-cta-actions">
+      <a href="{% url 'contact' %}" class="jb-cta-btn jb-cta-btn--primary">
+        <span class="material-symbols-outlined">calendar_month</span>
+        Book Free Consultation
+      </a>
+
+      <a href="tel:+9779801822861" class="jb-cta-btn jb-cta-btn--outline">
+        <span class="material-symbols-outlined">call</span>
+        Call Us
+      </a>
+
+      <a href="https://wa.me/9779801822861" target="_blank" rel="noopener" class="jb-cta-btn jb-cta-btn--outline">
+        <span class="material-symbols-outlined">chat</span>
+        WhatsApp
+      </a>
+    </div>
+  </div>
+</section>
+
+{% endblock content %}

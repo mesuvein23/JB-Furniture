@@ -1,0 +1,77 @@
+{% extends 'vendor/main.html' %}
+
+{% block admincontent %}
+    <div class="container mt-4">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <h3 class="text-center mb-4">Add Blog</h3>
+                <button>
+                <a href="{% url 'vendor' %}">Back</a>
+            </button>
+                
+                <form method="POST" enctype="multipart/form-data" action="{% url 'addblog' %}">
+                    {% csrf_token %}
+                    
+                    <!-- Row 1: Category Name and Slug -->
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label for="blog_title" class="form-label">Blog Name</label>
+                            <input type="text" class="form-control" name="blog_title" 
+                                id="blog_title" placeholder="Enter category name" required>
+                        </div>
+                        
+                        <div class="col-md-6">
+                            <label for="blog_slug" class="form-label">Slug</label>
+                            <input type="text" name="blog_slug" id="blog_slug" 
+                                placeholder="Enter slug" class="form-control" required>
+                        </div>
+                    </div>
+
+                    <!-- Row 2: Description -->
+                    <div class="row mb-3">
+                        <div class="col-12">
+                            <label for="blog_description" class="form-label">Description</label>
+                            <textarea name="blog_description" id="blog_description" 
+                                    placeholder="Enter blog description" class="form-control" rows="5"></textarea>
+                        </div>
+                    </div>
+
+                    <!-- Row 3: Category Image -->
+                    <div class="row mb-3">
+                        <div class="col-12">
+                            <label for="blog_images" class="form-label">Blog Image</label>
+                            <input type="file" name="blog_images" id="blog_images" 
+                                class="form-control" accept="image/*" required>
+                        </div>
+                    </div>
+
+                    <!-- Submit Button -->
+                    <div class="row">
+                        <div class="col-12 text-center">
+                            <button type="submit" class="btn btn-primary btn-sm">
+                                Add Blog
+                            </button>
+                            <a href="#" class="btn btn-secondary btn-lg ms-2">
+                                Cancel
+                            </a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+    document.getElementById('blog_title').addEventListener('input', function() {
+        const name = this.value;
+        const slug = name.toLowerCase()
+                        .replace(/[^\w\s-]/g, '') // Remove special characters
+                        .replace(/\s+/g, '-')     // Replace spaces with hyphens
+                        .replace(/--+/g, '-')     // Replace multiple hyphens with single
+                        .trim('-');               // Remove leading/trailing hyphens
+        document.getElementById('blog_slug').value = slug;
+    });
+    </script>
+
+{% endblock admincontent %}
+

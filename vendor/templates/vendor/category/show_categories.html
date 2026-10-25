@@ -1,0 +1,31 @@
+{% extends 'vendor/main.html' %}
+
+
+{% block admincontent %}
+
+<table class="table">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Image</th>
+        <th scope="col">Name</th>
+        <th scope="col">Action</th>
+      </tr>
+    </thead>
+    <tbody>
+        {% for obj in object_list %}
+        <tr>
+            <th scope="row">{{obj.id}}</th>
+            <td> <img src="{{obj.category_image.url}}" alt="..." style="height: 40px; width: 40px;"> </td>
+            <td>{{obj.category_name}}</td>
+            <td> 
+                <a href="{% url 'category_edit' obj.id %}">Edit</a>
+                <a href="{% url 'category_delete' obj.id %}">Delete</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+  </table>
+
+  
+{% endblock admincontent %}

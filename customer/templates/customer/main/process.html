@@ -1,0 +1,57 @@
+{% load static %}
+
+{% block customcss %}
+
+{% endblock customcss %}
+
+{% block content %}
+<!-- ================= OUR PROCESS ================= -->
+<section class="jb-process">
+  <div class="container">
+
+    <div class="jb-section-head">
+      <span class="jb-eyebrow">How it works</span>
+      <h2 class="jb-title">Our Process</h2>
+      <p class="jb-subtitle">A smooth journey from your first idea to furniture in your home.</p>
+    </div>
+
+    <div class="jb-process-steps">
+
+      <div class="jb-step">
+        <div class="jb-step-num">1</div>
+        <span class="jb-step-label">Step 1</span>
+        <h3>Consultation</h3>
+        <p>We listen to your needs, budget and style, and help you choose the right pieces.</p>
+      </div>
+
+      <div class="jb-step">
+        <div class="jb-step-num">2</div>
+        <span class="jb-step-label">Step 2</span>
+        <h3>Design</h3>
+        <p>We finalise sizes, materials and finishes, with sketches or previews for approval.</p>
+      </div>
+
+      <div class="jb-step">
+        <div class="jb-step-num">3</div>
+        <span class="jb-step-label">Step 3</span>
+        <h3>Crafting</h3>
+        <p>Our craftsmen build your furniture with care and strict quality checks.</p>
+      </div>
+
+      <div class="jb-step">
+        <div class="jb-step-num">4</div>
+        <span class="jb-step-label">Step 4</span>
+        <h3>Delivery</h3>
+        <p>We deliver, assemble and place everything exactly where you want it.</p>
+      </div>
+
+    </div>
+
+    <div class="jb-process-cta">
+      <a href="{% url 'sale' %}" class="jb-btn">Start Shopping</a>
+    </div>
+
+  </div>
+</section>
+
+{% endblock content %}

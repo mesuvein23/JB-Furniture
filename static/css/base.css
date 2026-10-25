@@ -1,0 +1,185 @@
+/* ==========================================
+   Site-wide font
+   ========================================== */
+
+:root {
+  --bs-body-font-family: "Jost", system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+
+body {
+  font-family: var(--bs-body-font-family);
+  color: #222;
+  letter-spacing: .2px;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--bs-body-font-family);
+}
+
+/* ==========================================
+   Images – never wider than their container
+   ========================================== */
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* ==========================================
+   Alert messages (top centre)
+   ========================================== */
+
+.jb-messages {
+  position: fixed;
+  top: 90px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 2000;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  width: calc(100% - 40px);
+  max-width: 460px;
+}
+
+.jb-alert {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  background: #ffffff;
+  border-left: 4px solid #111111;
+  padding: 14px 16px;
+  font-size: 14px;
+  color: #111111;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
+  animation: jb-alert-in 0.3s ease;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+@keyframes jb-alert-in {
+  from { opacity: 0; transform: translateY(-12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.jb-alert.hide {
+  opacity: 0;
+  transform: translateY(-12px);
+}
+
+.jb-alert-success { border-left-color: #1e7b34; }
+.jb-alert-info    { border-left-color: #111111; }
+.jb-alert-warning { border-left-color: #e0a800; }
+.jb-alert-error   { border-left-color: #e00000; }
+
+.jb-alert-close {
+  background: none;
+  border: none;
+  font-size: 20px;
+  line-height: 1;
+  color: #888888;
+  cursor: pointer;
+  padding: 0;
+}
+
+.jb-alert-close:hover {
+  color: #e00000;
+}
+
+/* ==========================================
+   Custom confirm pop-up
+   ========================================== */
+
+.jb-confirm {
+  position: fixed;
+  inset: 0;
+  z-index: 3000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background: rgba(17, 17, 17, 0.45);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.2s ease, visibility 0.2s ease;
+}
+
+.jb-confirm.show {
+  opacity: 1;
+  visibility: visible;
+}
+
+.jb-confirm-box {
+  width: 100%;
+  max-width: 380px;
+  background: #ffffff;
+  border-top: 3px solid #e00000;
+  padding: 30px 26px 24px;
+  text-align: center;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
+  transform: translateY(12px) scale(0.97);
+  transition: transform 0.2s ease;
+}
+
+.jb-confirm.show .jb-confirm-box {
+  transform: translateY(0) scale(1);
+}
+
+.jb-confirm-icon {
+  font-size: 46px !important;
+  color: #e00000;
+  display: block;
+  margin-bottom: 8px;
+}
+
+.jb-confirm-box p {
+  font-size: 16px;
+  font-weight: 600;
+  color: #111111;
+  margin: 0 0 22px;
+  line-height: 1.5;
+}
+
+.jb-confirm-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.jb-confirm-actions button {
+  flex: 1;
+  padding: 11px;
+  border: none;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background 0.25s ease, color 0.25s ease;
+}
+
+.jb-confirm-cancel {
+  background: #f1f1f1;
+  color: #111111;
+}
+
+.jb-confirm-cancel:hover {
+  background: #e2e2e2;
+}
+
+.jb-confirm-ok {
+  background: #e00000;
+  color: #ffffff;
+}
+
+.jb-confirm-ok:hover {
+  background: #111111;
+}
+
+@media (max-width: 575px) {
+  .jb-messages {
+    top: 76px;
+    width: calc(100% - 20px);
+  }
+}

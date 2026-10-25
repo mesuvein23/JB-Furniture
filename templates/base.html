@@ -1,0 +1,153 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    {% block title %}
+      <title>JAYA BARAHI FURNITURE</title>
+    {% endblock title %}
+
+    
+
+    <!-- ===== SEO ===== -->
+    <meta name="description" content="{% block meta_description %}Jaya Barahi Furniture – handcrafted sofas, beds, dining sets and custom furniture in Kathmandu. Quality craftsmanship, delivery and installation.{% endblock meta_description %}">
+    {% block robots %}<meta name="robots" content="index, follow">{% endblock robots %}
+    <link rel="canonical" href="{% block canonical %}{{ request.scheme }}://{{ request.get_host }}{{ request.path }}{% endblock canonical %}">
+
+    <meta property="og:site_name" content="JB Furniture">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="{% block og_title %}JB Furniture – Quality Furniture in Kathmandu{% endblock og_title %}">
+    <meta property="og:description" content="{% block og_description %}Handcrafted furniture for every room. Custom designs, delivery and installation.{% endblock og_description %}">
+    <meta property="og:url" content="{{ request.scheme }}://{{ request.get_host }}{{ request.get_full_path }}">
+    <meta property="og:image" content="{% block og_image %}{{ request.scheme }}://{{ request.get_host }}{% static 'images/jblogo.jpg' %}{% endblock og_image %}">
+    <meta name="twitter:card" content="summary_large_image">
+
+    {% block structured_data %}{% endblock structured_data %}
+
+        <!-- Favicon (logo in the browser tab) -->
+    <link rel="icon" type="image/jpeg" href="{% static 'images/jblogo.jpg' %}">
+    <link rel="apple-touch-icon" href="{% static 'images/jblogo.jpg' %}">
+    
+    <!-- Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+    <!-- Bootstrap, Font Awesome, etc. -->
+    {% include 'layouts.html' %}
+
+    <!-- Your site-wide CSS (must come after Bootstrap) -->
+    <link rel="stylesheet" href="{% static 'css/base.css' %}">
+    <link rel="stylesheet" href="{% static 'css/footer.css' %}">
+
+    <!-- Page-specific CSS -->
+    {% block customcss %}{% endblock customcss %}
+  </head>
+
+  <body>
+
+    <header>
+      {% include 'navbar.html' %}
+    </header>
+
+    <main>
+      {% if messages %}
+      <div class="jb-messages">
+        {% for message in messages %}
+          <div class="jb-alert jb-alert-{{ message.tags|default:'info' }}" role="alert">
+            <span class="jb-alert-text">{{ message }}</span>
+            <button type="button" class="jb-alert-close" aria-label="Close">&times;</button>
+          </div>
+        {% endfor %}
+      </div>
+      {% endif %}
+
+      {% block content %}{% endblock content %}
+    </main>
+
+    {% include 'footer.html' %}
+
+    <!-- ===== Custom confirm pop-up ===== -->
+    <div class="jb-confirm" id="jbConfirm" aria-hidden="true">
+      <div class="jb-confirm-box" role="dialog" aria-modal="true" aria-labelledby="jbConfirmText">
+        <span class="material-symbols-outlined jb-confirm-icon">help</span>
+        <p id="jbConfirmText">Are you sure?</p>
+        <div class="jb-confirm-actions">
+          <button type="button" class="jb-confirm-cancel">Cancel</button>
+          <button type="button" class="jb-confirm-ok">Yes, remove</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Alert messages: close on × and auto-hide after 4 seconds -->
+    <script>
+      document.querySelectorAll('.jb-alert').forEach(function (alert) {
+        function hide() {
+          alert.classList.add('hide');
+          setTimeout(function () { alert.remove(); }, 300);
+        }
+        alert.querySelector('.jb-alert-close').addEventListener('click', hide);
+        setTimeout(hide, 4000);
+      });
+    </script>
+
+    <!-- Custom confirm: use data-confirm="Message" on links or forms -->
+    <script>
+      (function () {
+        var modal = document.getElementById('jbConfirm');
+        var text = document.getElementById('jbConfirmText');
+        var okBtn = modal.querySelector('.jb-confirm-ok');
+        var cancelBtn = modal.querySelector('.jb-confirm-cancel');
+        var pending = null;
+
+        function open(message, okLabel, action) {
+          text.textContent = message;
+          okBtn.textContent = okLabel || 'Yes, remove';
+          pending = action;
+          modal.classList.add('show');
+          modal.setAttribute('aria-hidden', 'false');
+          okBtn.focus();
+        }
+
+        function close() {
+          modal.classList.remove('show');
+          modal.setAttribute('aria-hidden', 'true');
+          pending = null;
+        }
+
+        okBtn.addEventListener('click', function () {
+          var action = pending;
+          close();
+          if (action) action();
+        });
+        cancelBtn.addEventListener('click', close);
+        modal.addEventListener('click', function (e) { if (e.target === modal) close(); });
+        document.addEventListener('keydown', function (e) { if (e.key === 'Escape') close(); });
+
+        document.querySelectorAll('a[data-confirm]').forEach(function (link) {
+          link.addEventListener('click', function (e) {
+            e.preventDefault();
+            open(link.dataset.confirm, link.dataset.confirmOk, function () {
+              window.location.href = link.href;
+            });
+          });
+        });
+
+        document.querySelectorAll('form[data-confirm]').forEach(function (form) {
+          form.addEventListener('submit', function (e) {
+            e.preventDefault();
+            open(form.dataset.confirm, form.dataset.confirmOk, function () {
+              form.submit();
+            });
+          });
+        });
+      })();
+    </script>
+
+    <!-- Page-specific JS -->
+    {% block script %}{% endblock script %}
+
+  </body>
+</html>

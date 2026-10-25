@@ -1,0 +1,291 @@
+/* =========================================================
+   JB Furniture – Our Process
+   ========================================================= */
+
+:root {
+  --jb-red: #e00000;
+  --jb-red-dark: #b30000;
+  --jb-black: #111111;
+  --jb-text: #555555;
+  --jb-light: #f6f6f6;
+}
+
+.jb-process {
+  padding: 90px 0;
+  background: var(--jb-light);
+}
+
+/* ---------- Heading ---------- */
+.jb-process .jb-section-head {
+  text-align: center;
+  max-width: 620px;
+  margin: 0 auto 50px;
+}
+
+.jb-process .jb-eyebrow {
+  display: inline-block;
+  color: var(--jb-red);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+
+.jb-process .jb-title {
+  font-size: 38px;
+  font-weight: 800;
+  color: var(--jb-black);
+  text-transform: uppercase;
+  margin-bottom: 15px;
+  position: relative;
+  padding-bottom: 15px;
+}
+
+.jb-process .jb-title::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  transform: translateX(-50%);
+  width: 60px;
+  height: 3px;
+  background: var(--jb-red);
+}
+
+.jb-process .jb-subtitle {
+  color: var(--jb-text);
+  font-size: 16px;
+  line-height: 1.7;
+  margin: 0;
+}
+
+/* ---------- Steps ---------- */
+.jb-process-steps {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 30px;
+  position: relative;
+}
+
+/* dashed line connecting the numbers */
+.jb-process-steps::before {
+  content: '';
+  position: absolute;
+  top: 35px;
+  left: 12.5%;
+  right: 12.5%;
+  border-top: 2px dashed #cfcfcf;
+  z-index: 0;
+}
+
+.jb-step {
+  text-align: center;
+  position: relative;
+  z-index: 1;
+  padding: 0 10px;
+}
+
+.jb-step-num {
+  width: 70px;
+  height: 70px;
+  margin: 0 auto 20px;
+  border-radius: 50%;
+  background: #ffffff;
+  border: 2px solid var(--jb-red);
+  color: var(--jb-red);
+  font-size: 26px;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.35s ease, color 0.35s ease, transform 0.35s ease;
+}
+
+.jb-step:hover .jb-step-num {
+  background: var(--jb-red);
+  color: #ffffff;
+  transform: scale(1.1);
+}
+
+.jb-step-label {
+  display: block;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: #999999;
+  margin-bottom: 6px;
+}
+
+.jb-step h3 {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--jb-black);
+  margin-bottom: 10px;
+}
+
+.jb-step p {
+  color: var(--jb-text);
+  font-size: 15px;
+  line-height: 1.7;
+  margin: 0;
+}
+
+/* ---------- Button ---------- */
+.jb-process-cta {
+  text-align: center;
+  margin-top: 55px;
+}
+
+.jb-btn {
+  display: inline-block;
+  background: var(--jb-red);
+  color: #ffffff;
+  padding: 14px 38px;
+  border-radius: 4px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: background 0.3s ease, transform 0.3s ease;
+}
+
+.jb-btn:hover {
+  background: var(--jb-red-dark);
+  color: #ffffff;
+  transform: translateY(-3px);
+}
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
+/* ---------- Small laptops (≤1199px) ---------- */
+@media (max-width: 1199px) {
+  .jb-process-steps {
+    gap: 22px;
+  }
+
+  .jb-step h3 {
+    font-size: 19px;
+  }
+
+  .jb-step p {
+    font-size: 14.5px;
+  }
+}
+
+/* ---------- Tablets (≤991px): 2 per row ---------- */
+@media (max-width: 991px) {
+  .jb-process {
+    padding: 70px 0;
+  }
+
+  .jb-process .jb-section-head {
+    margin-bottom: 40px;
+  }
+
+  .jb-process .jb-title {
+    font-size: 32px;
+  }
+
+  .jb-process-steps {
+    grid-template-columns: repeat(2, 1fr);
+    row-gap: 45px;
+    max-width: 680px;
+    margin: 0 auto;
+  }
+
+  .jb-process-steps::before {
+    display: none;   /* straight line doesn't fit a 2x2 grid */
+  }
+
+  .jb-process-cta {
+    margin-top: 45px;
+  }
+}
+
+/* ---------- Phones (≤575px): vertical timeline ---------- */
+@media (max-width: 575px) {
+  .jb-process {
+    padding: 55px 0;
+  }
+
+  .jb-process .jb-section-head {
+    margin-bottom: 35px;
+    padding: 0 10px;
+  }
+
+  .jb-process .jb-eyebrow {
+    font-size: 12px;
+  }
+
+  .jb-process .jb-title {
+    font-size: 26px;
+  }
+
+  .jb-process .jb-subtitle {
+    font-size: 15px;
+  }
+
+  .jb-process-steps {
+    grid-template-columns: 1fr;
+    row-gap: 32px;
+    padding: 0 5px;
+  }
+
+  .jb-step {
+    text-align: left;
+    padding: 0 0 0 78px;
+    min-height: 60px;
+  }
+
+  .jb-step-num {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 58px;
+    height: 58px;
+    margin: 0;
+    font-size: 22px;
+  }
+
+  /* dashed line between the numbers */
+  .jb-step:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    left: 28px;
+    top: 64px;
+    bottom: -28px;
+    border-left: 2px dashed #cfcfcf;
+  }
+
+  .jb-step-label {
+    font-size: 11px;
+  }
+
+  .jb-step h3 {
+    font-size: 18px;
+    margin-bottom: 6px;
+  }
+
+  .jb-step p {
+    font-size: 14px;
+  }
+
+  .jb-step:hover .jb-step-num {
+    transform: none;   /* no zoom on touch screens */
+  }
+
+  .jb-process-cta {
+    margin-top: 40px;
+  }
+
+  .jb-btn {
+    display: block;    /* full-width button on phones */
+    width: 100%;
+    padding: 14px 20px;
+    text-align: center;
+  }
+}

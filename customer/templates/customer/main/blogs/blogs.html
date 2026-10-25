@@ -1,0 +1,30 @@
+{% block title %}
+<title>{{ all_blog.interior_title }} | JB Furniture Blog</title>
+{% endblock title %}
+
+{% block meta_description %}{{ all_blog.blog_description|striptags|truncatechars:155 }}{% endblock meta_description %}
+
+{% block og_type %}article{% endblock og_type %}
+{% block og_title %}{{ all_blog.interior_title }}{% endblock og_title %}
+{% block og_description %}{{ all_blog.blog_description|striptags|truncatechars:150 }}{% endblock og_description %}
+{% block og_image %}{% if all_blog.blog_images %}{{ request.scheme }}://{{ request.get_host }}{{ all_blog.blog_images.url }}{% else %}{{ request.scheme }}://{{ request.get_host }}{% static 'images/jblogo.jpg' %}{% endif %}{% endblock og_image %}
+
+{% block structured_data %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "{{ all_blog.interior_title|escapejs }}",
+  "description": "{{ all_blog.blog_description|striptags|truncatechars:155|escapejs }}",
+  {% if all_blog.blog_images %}"image": "{{ request.scheme }}://{{ request.get_host }}{{ all_blog.blog_images.url }}",{% endif %}
+  {% if all_blog.created_at %}"datePublished": "{{ all_blog.created_at|date:'c' }}",{% endif %}
+  "author": {"@type": "Organization", "name": "Jaya Barahi Furniture"},
+  "publisher": {
+    "@type": "Organization",
+    "name": "Jaya Barahi Furniture",
+    "logo": {"@type": "ImageObject", "url": "{{ request.scheme }}://{{ request.get_host }}{% static 'images/jblogo.jpg' %}"}
+  },
+  "mainEntityOfPage": "{{ request.scheme }}://{{ request.get_host }}{{ request.path }}"
+}
+</script>
+{% endblock structured_data %}

@@ -1,0 +1,204 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+<title>{% if category %}{{ category.category_name }}{% else %}Products{% endif %} | JB Furniture</title>
+{% endblock title %}
+
+{% block customcss %}
+<link rel="stylesheet" href="{% static 'products/products.css' %}">
+{% endblock customcss %}
+
+{% block content %}
+<div class="py-4">
+  <div class="container">
+
+    <!-- Breadcrumb -->
+    <nav aria-label="breadcrumb" class="mb-3">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
+        {% if category %}
+          <li class="breadcrumb-item"><a href="{% url 'products' %}">Products</a></li>
+          <li class="breadcrumb-item active" aria-current="page">{{ category.category_name }}</li>
+        {% else %}
+          <li class="breadcrumb-item active" aria-current="page">Products</li>
+        {% endif %}
+      </ol>
+    </nav>
+
+    <div class="row g-4">
+
+      <!-- ================= FILTER SIDEBAR ================= -->
+      <aside class="col-lg-3">
+
+        <button class="btn filter-toggle w-100 d-lg-none mb-3" type="button"
+                data-bs-toggle="collapse" data-bs-target="#filterPanel" aria-expanded="false" aria-controls="filterPanel">
+          <span class="material-symbols-outlined">tune</span> Filters
+          {% if filters_active %}<span class="filter-dot"></span>{% endif %}
+        </button>
+
+        <div class="collapse d-lg-block" id="filterPanel">
+          <div class="filter-panel">
+
+            <form method="get" action="{{ request.path }}">
+
+              <!-- Sort -->
+              <div class="filter-group">
+                <h6 class="filter-title">Sort by</h6>
+                <select name="sort" class="form-select filter-input" onchange="this.form.submit()">
+                  <option value="newest" {% if sort == 'newest' %}selected{% endif %}>Newest first</option>
+                  <option value="price_low" {% if sort == 'price_low' %}selected{% endif %}>Price: low to high</option>
+                  <option value="price_high" {% if sort == 'price_high' %}selected{% endif %}>Price: high to low</option>
+                  <option value="name" {% if sort == 'name' %}selected{% endif %}>Name: A to Z</option>
+                </select>
+              </div>
+
+              <!-- Price -->
+              <div class="filter-group">
+                <h6 class="filter-title">Price (Rs)</h6>
+                <div class="price-inputs">
+                  <input type="number" name="min_price" class="form-control filter-input" min="0"
+                         placeholder="{{ price_limits.low|default:'Min'|floatformat:0 }}" value="{{ min_price }}" aria-label="Minimum price">
+                  <span>–</span>
+                  <input type="number" name="max_price" class="form-control filter-input" min="0"
+                         placeholder="{{ price_limits.high|default:'Max'|floatformat:0 }}" value="{{ max_price }}" aria-label="Maximum price">
+                </div>
+                <button type="submit" class="btn filter-apply w-100 mt-3">Apply</button>
+              </div>
+
+            </form>
+
+            <!-- Categories -->
+            <div class="filter-group">
+              <h6 class="filter-title">Categories</h6>
+              <ul class="filter-cats">
+                <li>
+                  <a href="{% url 'products' %}{% if querystring %}?{{ querystring }}{% endif %}"
+                     class="{% if not category %}active{% endif %}">All products</a>
+                </li>
+                {% for cat in categories %}
+                <li>
+                  <a href="{% url 'products_by_category' cat.slug %}{% if querystring %}?{{ querystring }}{% endif %}"
+                     class="{% if category and category.id == cat.id %}active{% endif %}">{{ cat.category_name }}</a>
+                </li>
+                {% endfor %}
+              </ul>
+            </div>
+
+            {% if filters_active %}
+              <a href="{{ request.path }}" class="filter-clear">
+                <span class="material-symbols-outlined">close</span> Clear filters
+              </a>
+            {% endif %}
+
+          </div>
+        </div>
+      </aside>
+
+      <!-- ================= PRODUCTS ================= -->
+      <section class="col-lg-9">
+
+        <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3">
+          <h3 class="mb-0">{% if category %}{{ category.category_name }}{% else %}All Products{% endif %}</h3>
+          {% if product_count %}
+            <small class="text-muted">Showing {{ page_obj.start_index }}–{{ page_obj.end_index }} of {{ product_count }} item{{ product_count|pluralize }}</small>
+          {% endif %}
+        </div>
+
+        {% if products %}
+          <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 g-4">
+            {% for item in products %}
+            <div class="col">
+              <div class="card h-100 shadow-sm product-card">
+
+                <form method="post" action="{% url 'toggle_wishlist' item.id %}" class="wish-form">
+                  {% csrf_token %}
+                  <button type="submit" class="wish-btn {% if item.id in wishlist_ids %}active{% endif %}"
+                          aria-label="{% if item.id in wishlist_ids %}Remove from wishlist{% else %}Add to wishlist{% endif %}">
+                    <span class="material-symbols-outlined">favorite</span>
+                  </button>
+                </form>
+
+                <a href="{{ item.get_url }}" class="product-img-wrap">
+                  {% with first_image=item.product_images.first %}
+                    {% if first_image %}
+                      <img src="{{ first_image.image.url }}" alt="{{ item.product_name }}">
+                    {% else %}
+                      <div class="product-noimg small">No image</div>
+                    {% endif %}
+                  {% endwith %}
+                </a>
+
+                <div class="card-body d-flex flex-column text-center">
+                  <a href="{{ item.get_url }}" class="product-name mb-1">{{ item.product_name }}</a>
+                  <p class="product-price mb-3">Rs: {{ item.price }}</p>
+                  <div class="mt-auto">
+                    <a href="{{ item.get_url }}" class="btn btn-outline-secondary w-100">View Details</a>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+            {% endfor %}
+          </div>
+
+          <!-- ================= PAGINATION ================= -->
+          {% if total_pages > 1 %}
+          <nav aria-label="Product pages" class="mt-5">
+            <ul class="pagination justify-content-center">
+
+              {% if page_obj.has_previous %}
+                <li class="page-item">
+                  <a class="page-link" href="?page={{ page_obj.previous_page_number }}{% if querystring %}&{{ querystring }}{% endif %}" aria-label="Previous">
+                    <span class="material-symbols-outlined">chevron_left</span>
+                  </a>
+                </li>
+              {% else %}
+                <li class="page-item disabled">
+                  <span class="page-link"><span class="material-symbols-outlined">chevron_left</span></span>
+                </li>
+              {% endif %}
+
+              {% for num in page_range %}
+                {% if num == page_obj.paginator.ELLIPSIS %}
+                  <li class="page-item disabled"><span class="page-link">…</span></li>
+                {% elif num == page_obj.number %}
+                  <li class="page-item active" aria-current="page"><span class="page-link">{{ num }}</span></li>
+                {% else %}
+                  <li class="page-item">
+                    <a class="page-link" href="?page={{ num }}{% if querystring %}&{{ querystring }}{% endif %}">{{ num }}</a>
+                  </li>
+                {% endif %}
+              {% endfor %}
+
+              {% if page_obj.has_next %}
+                <li class="page-item">
+                  <a class="page-link" href="?page={{ page_obj.next_page_number }}{% if querystring %}&{{ querystring }}{% endif %}" aria-label="Next">
+                    <span class="material-symbols-outlined">chevron_right</span>
+                  </a>
+                </li>
+              {% else %}
+                <li class="page-item disabled">
+                  <span class="page-link"><span class="material-symbols-outlined">chevron_right</span></span>
+                </li>
+              {% endif %}
+
+            </ul>
+          </nav>
+          {% endif %}
+
+        {% else %}
+          <div class="text-center py-5 no-results">
+            <span class="material-symbols-outlined">search_off</span>
+            <h4>No products found</h4>
+            <p class="text-muted">Try a different price range or category.</p>
+            <a href="{% url 'products' %}" class="btn filter-apply">View all products</a>
+          </div>
+        {% endif %}
+
+      </section>
+    </div>
+
+  </div>
+</div>
+{% endblock content %}

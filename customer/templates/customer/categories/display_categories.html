@@ -1,0 +1,43 @@
+{% load static %}
+
+<div>
+    <div class="">
+          <h1 class="headerCategory">Shop by Category</h1>
+          <hr>
+    
+      <div class="owl-carousel owl-theme">
+        {% for cate in allcategories %} 
+          <div class="item">
+            <a href="{{ cate.get_url }}">
+              <img src="{{ cate.category_image.url }}" class="imgCarousel" style="max-width: 100%; height: auto;"  alt="categoryyimage">
+            </a>
+            <p>{{ cate.category_name }}</p>
+          </div>
+        {% endfor %}
+      </div>
+
+    </div>
+</div>
+
+<script>
+  $('.owl-carousel').owlCarousel({
+    loop:true,
+    margin:40,
+    responsive:{
+        0:{
+            items:1,
+            nav:true
+
+        },
+        600:{
+            items:3,
+            nav : false
+        },
+        1000:{
+            items:6,
+            nav:true,
+
+        }
+    }
+})
+</script>

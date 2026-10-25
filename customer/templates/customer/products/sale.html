@@ -1,0 +1,44 @@
+{% load static %}
+
+{% block customcss %}
+{% endblock customcss %}
+
+
+{% block content %}
+<div class="container my-4">
+  <h1>Newly Launched Products</h1>
+  <hr>
+
+  {% if sale_products %}
+    <div class="image-container">
+      {% for item in sale_products|slice:":6" %}
+        <div class="image-grid">
+          <a href="{{ item.get_url }}" class="text-decoration-none">
+            {% with item.product_images.first as first_image %}
+              {% if first_image %}
+                <img src="{{ first_image.image.url }}" alt="{{ item.product_name }}" class="image-item" loading="lazy">
+              {% else %}
+                <div class="no-image">No image</div>
+              {% endif %}
+            {% endwith %}
+            <div class="lay">{{ item.product_name }}</div>
+          </a>
+        </div>
+      {% endfor %}
+    </div>
+
+    {% if sale_products|length > 6 %}
+      <div class="text-center mt-4 mb-4">
+        <a href="{% url 'sale' %}" class="btn btn-primary">
+          View More Products ({{ sale_products|length|add:"-6" }} more)
+        </a>
+      </div>
+    {% endif %}
+
+  {% else %}
+    <div class="text-center py-5">
+      <p class="text-muted">No products available at the moment. Please check back later.</p>
+    </div>
+  {% endif %}
+</div>
+{% endblock content %}

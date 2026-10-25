@@ -1,0 +1,128 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+  <title>Contact Us | JB Furniture</title>
+{% endblock title %}
+
+{% block meta_description %}Contact Jaya Barahi Furniture in Kathmandu. Call, email or visit our showroom, or book a free furniture consultation.{% endblock meta_description %}
+
+{% block customcss %}
+<link rel="stylesheet" href="{% static 'contact/contact.css' %}">
+{% endblock customcss %}
+
+{% block content %}
+
+<section class="contact-page">
+  <div class="container">
+
+    <div class="contact-head">
+      <h3>Contact Us</h3>
+      <p>Have a question or need help choosing furniture? We'd love to hear from you.</p>
+    </div>
+
+    <div class="contact-wrap">
+
+      <!-- ================= GET IN TOUCH ================= -->
+      <aside class="touch-card">
+        <h4>Get in Touch</h4>
+        <p class="touch-intro">Visit our showroom, give us a call or drop us an email. We usually reply within one working day.</p>
+
+        <div class="touch-item">
+          <span class="material-symbols-outlined">location_on</span>
+          <div>
+            <h6>Address</h6>
+            <p>Bhaktapur, Nepal</p>
+          </div>
+        </div>
+
+        <div class="touch-item">
+          <span class="material-symbols-outlined">call</span>
+          <div>
+            <h6>Phone</h6>
+            <p><a href="tel:+977-980-1822861">+977 980-1822861</a></p>
+          </div>
+        </div>
+
+        <div class="touch-item">
+          <span class="material-symbols-outlined">mail</span>
+          <div>
+            <h6>Email</h6>
+            <p><a href="mailto:jayabarahifurniture@gmail.com">jayabarahifurniture@gmail.com</a></p>
+          </div>
+        </div>
+
+        <a href="https://wa.me/9779801822861" target="_blank" rel="noopener" class="touch-whatsapp">
+          <span class="material-symbols-outlined">chat</span>
+          Chat on WhatsApp
+        </a>
+      </aside>
+
+      <!-- ================= FORM ================= -->
+      <div class="contact-card">
+        <h4>Send us a Message</h4>
+
+        {% for message in messages %}
+          <div class="alert alert-success">{{ message }}</div>
+        {% endfor %}
+
+        <form method="POST" action="{% url 'contact' %}" novalidate>
+          {% csrf_token %}
+
+          <div class="row">
+            <div class="col-md-6">
+              <label for="fname" class="form-label mt-3">First Name <span class="req">*</span></label>
+              <input type="text" class="form-control {% if errors.firstname %}is-invalid{% endif %}"
+                     id="fname" name="firstname" placeholder="Your name.." value="{{ data.firstname }}">
+              {% if errors.firstname %}<div class="invalid-feedback">{{ errors.firstname }}</div>{% endif %}
+            </div>
+
+            <div class="col-md-6">
+              <label for="lname" class="form-label mt-3">Last Name</label>
+              <input type="text" class="form-control" id="lname" name="lastname"
+                     placeholder="Your last name.." value="{{ data.lastname }}">
+            </div>
+          </div>
+
+          <div>
+            <label for="email" class="form-label mt-3">Email address <span class="req">*</span></label>
+            <input type="email" class="form-control {% if errors.email %}is-invalid{% endif %}"
+                   id="email" name="email" placeholder="Enter email" value="{{ data.email }}">
+            {% if errors.email %}
+              <div class="invalid-feedback">{{ errors.email }}</div>
+            {% else %}
+              <small class="form-text text-muted">We'll never share your email with anyone else.</small>
+            {% endif %}
+          </div>
+
+          <div>
+            <label for="city" class="form-label mt-3">City <span class="req">*</span></label>
+            <select class="form-select {% if errors.city %}is-invalid{% endif %}" id="city" name="city">
+              <option value="">Select your city</option>
+              <option value="kathmandu" {% if data.city == 'kathmandu' %}selected{% endif %}>Kathmandu</option>
+              <option value="bhaktapur" {% if data.city == 'bhaktapur' %}selected{% endif %}>Bhaktapur</option>
+              <option value="lalitpur" {% if data.city == 'lalitpur' %}selected{% endif %}>Lalitpur</option>
+            </select>
+            {% if errors.city %}<div class="invalid-feedback">{{ errors.city }}</div>{% endif %}
+          </div>
+
+          <div>
+            <label for="subject" class="form-label mt-3">Subject <span class="req">*</span></label>
+            <textarea id="subject" name="subject" rows="5"
+                      class="form-control {% if errors.subject %}is-invalid{% endif %}"
+                      placeholder="Write something..">{{ data.subject }}</textarea>
+            {% if errors.subject %}<div class="invalid-feedback">{{ errors.subject }}</div>{% endif %}
+          </div>
+
+          <div class="mt-4">
+            <button type="submit" class="btn contact-btn">Submit</button>
+          </div>
+        </form>
+      </div>
+
+ 
+    </div>
+  </div>
+</section>
+
+{% endblock content %}

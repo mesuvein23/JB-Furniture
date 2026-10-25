@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<!-- <div class="w3-sidebar w3-bar-block" style="width:25%">
+    <div style="justify-content: center;">
+        <h4>Category</h4>
+        {% for cat in products %}
+        <a href="#" class="w3-bar-item w3-button" style="text-decoration: none;">
+            <p>{{ cat.category_name }}</p>
+        </a>
+        {% endfor %}
+    </div>
+
+    <a href="#" class="w3-bar-item w3-button">Link 2</a>
+    <a href="#" class="w3-bar-item w3-button">Link 3</a>
+
+</div> -->
+
+<div class="container">
+    <h1 style="font-family: Arvo, serif;" class="text-center">Sale</h1>
+    <hr>
+    <div class="row">
+        {% for item in search %}
+        <div class="col-lg-3 col-md-6 mb-4">
+            <a href="{{ item.get_url }}" class="text-decoration-none">
+                <div class="card h-100">
+                    {% if item.product_images.all %}
+                    {% with item.product_images.first as first_image %}
+                    <img src="{{ first_image.image.url }}" alt="Product Image" class="card-img-top"
+                        style="height: 270px; object-fit: cover;">
+                    {% endwith %}
+                    {% endif %}
+                    <div class="card-body">
+
+                        <h5 class="card-title text-center">{{ item.product_name }}</h5>
+                        <p class="card-text text-center">Rs: {{ item.price }}</p>
+                        <div class="text-center">
+                            {% if item.stock > 0 %}
+                            <button class="btn btn-light addToCartBtn" data-product="{{ item.id }}"
+                                style="margin-left: 20px;">Add to Cart</button>
+                            {% endif %}
+                            <!-- <button class="btn btn-secondary ml-2">Wishlist</button> -->
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock content %}

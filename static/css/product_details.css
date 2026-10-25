@@ -1,0 +1,100 @@
+/* ==========================================
+   Variables
+   ========================================== */
+
+.pdp {
+  --pdp-muted: #6c757d;
+  --pdp-bg: #f6f5f2;
+}
+
+
+/* ==========================================
+   Typography
+   ========================================== */
+
+.pdp,
+.pdp h1, .pdp h2, .pdp h3, .pdp h4, .pdp h5, .pdp h6 {
+  font-family: "Jost", system-ui, sans-serif;
+}
+
+.pdp {
+  color: #222;
+  font-weight: 400;
+  letter-spacing: .2px;
+}
+
+
+/* ==========================================
+   Breadcrumb
+   ========================================== */
+
+.pdp-breadcrumb { font-size: .85rem; }
+.pdp-breadcrumb a { color: inherit; text-decoration: none; }
+.pdp-breadcrumb a:hover { text-decoration: underline; }
+
+
+/* ==========================================
+   Gallery
+   ========================================== */
+
+.pdp-gallery { display: flex; gap: 12px; }
+
+.pdp-thumbs {
+  display: flex; flex-direction: column; gap: 10px;
+  width: 76px; flex-shrink: 0; max-height: 640px;
+  overflow-y: auto; scrollbar-width: none;
+}
+.pdp-thumbs::-webkit-scrollbar { display: none; }
+
+.pdp-thumb {
+  width: 100%; flex-shrink: 0; padding: 0; aspect-ratio: 1 / 1;
+  background: var(--pdp-bg); border: 1px solid transparent;
+  border-radius: 6px; overflow: hidden; opacity: .55;
+  transition: opacity .2s, border-color .2s;
+}
+.pdp-thumb:hover { opacity: 1; }
+.pdp-thumb.active { opacity: 1; border-color: #222; }
+.pdp-thumb img { width: 100%; height: 100%; object-fit: cover; }
+
+.pdp-main { flex: 1; min-width: 0; position: relative; }
+
+.pdp-main .carousel-item img {
+  width: 100%; aspect-ratio: 1 / 1; object-fit: contain;
+  background: var(--pdp-bg); border-radius: 8px; cursor: zoom-in;
+}
+
+.pdp-counter {
+  position: absolute; bottom: 14px; right: 14px; z-index: 2;
+  background: rgba(255, 255, 255, .9); padding: 4px 10px;
+  border-radius: 20px; font-size: .8rem;
+}
+
+.pdp-main .carousel-control-prev,
+.pdp-main .carousel-control-next {
+  width: 44px; height: 44px; top: 50%; bottom: auto;
+  transform: translateY(-50%); margin: 0 12px;
+  background: rgba(255, 255, 255, .9); border-radius: 50%;
+  opacity: 0; transition: opacity .2s;
+}
+.pdp-main:hover .carousel-control-prev,
+.pdp-main:hover .carousel-control-next { opacity: 1; }
+.pdp-main .carousel-control-prev-icon,
+.pdp-main .carousel-control-next-icon { filter: invert(1); width: 18px; height: 18px; }
+
+.pdp-placeholder {
+  display: flex; align-items: center; justify-content: center;
+  aspect-ratio: 1 / 1; background: var(--pdp-bg); border-radius: 8px;
+}
+
+
+/* ==========================================
+   Product info column
+   ========================================== */
+
+.pdp-info { position: sticky; top: 24px; }
+
+.pdp-title {
+  font-size: 2rem;
+  font-weight: 400;
+  line-height: 1.2;
+  text-align:

@@ -1,0 +1,105 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container my-4">
+  <div class="row">
+    <!-- 📝 Form Column -->
+    <div class="col-lg-6">
+      <form method="POST" action="{% url 'placeorder' %}">
+        {% csrf_token %}
+        <div class="row mb-3">
+          <div class="col">
+            <label for="first-name">First Name</label>
+            <input type="text" class="form-control" name="first_name" placeholder="First name">
+          </div>
+          <div class="col">
+            <label for="last-name">Last Name</label>
+            <input type="text" class="form-control" name="last_name" placeholder="Last name">
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <label for="email">Email</label>
+          <input type="email" class="form-control" name="email" placeholder="Please input your email">
+        </div>
+
+        <div class="row mb-3">
+          <div class="col">
+            <label for="country">Country</label>
+            <input type="text" class="form-control" name="country" placeholder="Country">
+          </div>
+          <div class="col">
+            <label for="state">State</label>
+            <select id="inputState" name="state" class="form-select">
+              <option selected>Choose...</option>
+              <option>Bagmati</option>
+              <option>Province 1</option>
+              <option>Gandaki</option>
+              <!-- Add more states as needed -->
+            </select>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <div class="col">
+            <label for="city">City</label>
+            <input type="text" class="form-control" name="city" placeholder="City">
+          </div>
+          <div class="col">
+            <label for="zip">Zip</label>
+            <input type="text" class="form-control" name="zipcode" placeholder="Zipcode">
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <label for="inputAddress" class="form-label">Address 1</label>
+          <input type="text" class="form-control" name="address1" placeholder="1234 Main St">
+        </div>
+
+        <div class="mb-3">
+          <label for="inputAddress2" class="form-label">Address 2</label>
+          <input type="text" class="form-control" name="address2" placeholder="Apartment, studio, or floor">
+        </div>
+
+        <div class="text-end">
+          <button type="submit" class="btn btn-danger">Submit</button>
+        </div>
+      </form>
+    </div>
+
+    <!-- 🛒 Order Summary Column -->
+    <div class="col-lg-6">
+      <a class="btn btn-outline-dark mb-3" href="{% url 'cart' %}">&#x2190; Back to Cart</a>
+      <h3>Order Summary</h3>
+      <hr>
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">Image</th>
+            <th scope="col">Title</th>
+            <th scope="col">Quantity</th>
+            <th scope="col">Price</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for item in cart_items %}
+          <tr>
+            <td>
+              {% if item.product.get_first_image %}
+              <img class="row-image" src="{{ item.product.get_first_image }}" height="70" width="70" style="object-fit: cover;" alt="{{ item.product.product_name }}">
+              {% else %}
+              <span class="text-muted small">No image</span>
+              {% endif %}
+            </td>
+            <td>{{ item.product.product_name }}</td>
+            <td>{{ item.quantity }}</td>
+            <td>{{ item.product.price }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      <h5>Total: Rs {{ total }}</h5>
+    </div>
+  </div>
+</div>
+{% endblock %}

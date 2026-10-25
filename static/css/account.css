@@ -1,0 +1,126 @@
+/* JB Furniture – My Orders table */
+
+.orders-wrap {
+  background: #ffffff;
+  border-top: 3px solid #111111;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+  margin-bottom: 16px;
+}
+
+.orders-title {
+  font-weight: 800;
+  text-transform: uppercase;
+  color: #111111;
+  display: inline-block;
+  padding-bottom: 6px;
+  border-bottom: 3px solid #e00000;
+}
+
+/* table */
+.orders-table {
+  margin: 0;
+}
+
+.orders-table thead th {
+  background: #111111;
+  color: #ffffff;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  border: none;
+  padding: 14px 16px;
+  white-space: nowrap;
+}
+
+.orders-table tbody td,
+.orders-table tbody th {
+  padding: 16px;
+  border-color: #f0f0f0;
+}
+
+.orders-table tbody tr {
+  transition: background 0.2s ease;
+}
+
+.orders-table tbody tr:hover {
+  background: #fff7f7;
+}
+
+.orders-table .tracking {
+  font-weight: 700;
+  color: #111111;
+  letter-spacing: 0.5px;
+}
+
+.orders-table .total {
+  font-weight: 700;
+  color: #e00000;
+}
+
+.orders-table .item-line {
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.orders-table .item-line span {
+  color: #8a8a8a;
+}
+
+/* status badges */
+.status-badge {
+  display: inline-block;
+  padding: 6px 12px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.status-pending   { background: #fff4e0; color: #b26a00; }
+.status-shipping  { background: #e8f0ff; color: #1d4fb8; }
+.status-completed { background: #e8f7ec; color: #1e7b34; }
+.status-other     { background: #f0f0f0; color: #555555; }
+
+/* buttons */
+.orders-btn {
+  display: inline-block;
+  background: #111111;
+  color: #ffffff;
+  border: none;
+  border-radius: 0;
+  padding: 10px 22px;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: background 0.3s ease;
+}
+
+.orders-btn:hover {
+  background: #e00000;
+  color: #ffffff;
+}
+
+/* empty state */
+.orders-empty {
+  background: #ffffff;
+  text-align: center;
+  padding: 60px 20px;
+  max-width: 520px;
+  margin: 20px auto;
+}
+
+.orders-empty i {
+  color: #e00000;
+}
+
+@media (max-width: 575px) {
+  .orders-table thead th,
+  .orders-table tbody td,
+  .orders-table tbody th {
+    padding: 12px 10px;
+  }
+}

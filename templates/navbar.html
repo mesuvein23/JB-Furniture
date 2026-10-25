@@ -1,0 +1,131 @@
+{% load static %}
+
+<nav class="navbar navbar-expand-lg" data-bs-theme="light">
+  <div class="container">
+
+    <a class="nav-images" href="{% url 'home' %}">
+      <img id="navImg" src="{% static 'images/jblogo.jpg' %}" alt="JB Furniture logo" height="50">
+    </a>
+
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor03"
+      aria-controls="navbarColor03" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarColor03">
+
+      <!-- ===== Main links ===== -->
+      <ul class="navbar-nav ms-auto me-3">
+
+        <li class="nav-item">
+          <a class="nav-link {% if request.path == '/' %}active{% endif %}" href="{% url 'home' %}">HOME</a>
+        </li>
+
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button"
+            aria-haspopup="true" aria-expanded="false">FURNITURE</a>
+          <div class="dropdown-menu">
+            {% for item in allcategories %}
+            <a class="dropdown-item" href="{{ item.get_url }}">{{ item.category_name }}</a>
+            {% endfor %}
+          </div>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link {% if request.path == '/sale/' %}active{% endif %}" href="{% url 'sale' %}">SHOP</a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link {% if request.path == '/blogs/' %}active{% endif %}" href="{% url 'blogs' %}">BLOG</a>
+        </li>
+
+        <!-- Wishlist -->
+        <li class="nav-item">
+          <a class="nav-link nav-icon {% if request.path == '/wishlist/' %}active{% endif %}" href="{% url 'wishlist' %}" aria-label="Wishlist">
+            <span class="material-symbols-outlined">favorite</span>
+            {% if wishlist_count %}
+              <span class="nav-badge">{{ wishlist_count }}</span>
+            {% endif %}
+          </a>
+        </li>
+
+        <!-- Cart -->
+        <li class="nav-item">
+          <a class="nav-link nav-icon {% if request.path == '/cart/' %}active{% endif %}" href="{% url 'cart' %}" aria-label="Cart">
+            <span class="material-symbols-outlined">shopping_cart</span>
+            {% if cart_count %}
+              <span class="nav-badge">{{ cart_count }}</span>
+            {% endif %}
+          </a>
+        </li>
+      </ul>
+
+      <!-- ===== Search ===== -->
+      <form class="d-flex search-form" method="get" action="{% url 'search' %}">
+        <input name="query" class="form-control me-2" type="search" placeholder="Search">
+        <button class="btn btn-secondary" type="submit">Search</button>
+      </form>
+
+      <!-- ===== Get a Quote ===== -->
+      <a href="{% url 'contact' %}?quote=1" class="btn quote-btn">Get a Quote</a>
+
+      <!-- ===== Account (far right) ===== -->
+      <ul class="navbar-nav account-nav">
+        <li class="nav-item dropdown">
+          <a class="nav-link nav-icon account-toggle {% if '/account/' in request.path %}active{% endif %}"
+             href="#" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-label="Account">
+            <span class="material-symbols-outlined">person</span>
+            {% if user.is_authenticated %}
+              <span class="account-name d-lg-none">{{ user.first_name|default:user.username }}</span>
+            {% endif %}
+          </a>
+
+          <div class="dropdown-menu dropdown-menu-end account-menu">
+            {% if user.is_authenticated %}
+              <div class="account-hello">
+                <span>Hello,</span>
+                <strong>{{ user.first_name|default:user.username }}</strong>
+              </div>
+
+              <a class="dropdown-item" href="{% url 'my_orders' %}">
+                <span class="material-symbols-outlined">inventory_2</span> My Orders
+              </a>
+              <a class="dropdown-item" href="{% url 'wishlist' %}">
+                <span class="material-symbols-outlined">favorite</span> Wishlist
+              </a>
+              <a class="dropdown-item" href="{% url 'password_change' %}">
+                  <span class="material-symbols-outlined">key</span> Change Password
+              </a>
+              {% if user.is_staff %}
+              <a class="dropdown-item" href="{% url 'admin:index' %}">
+                <span class="material-symbols-outlined">admin_panel_settings</span> Admin Panel
+              </a>
+              {% endif %}
+
+              <div class="dropdown-divider"></div>
+
+              <form method="post" action="{% url 'account_logout' %}" class="m-0">
+                {% csrf_token %}
+                <button type="submit" class="dropdown-item logout-item">
+                  <span class="material-symbols-outlined">logout</span> Log Out
+                </button>
+              </form>
+            {% else %}
+              <div class="account-hello">
+                <span>Welcome to</span>
+                <strong>JB Furniture</strong>
+              </div>
+
+              <div class="account-actions">
+                <a class="account-login" href="{% url 'account_login' %}?next={{ request.path|urlencode }}">Log In</a>
+                <a class="account-signup" href="{% url 'account_signup' %}?next={{ request.path|urlencode }}">Create Account</a>
+                
+              </div>
+            {% endif %}
+          </div>
+        </li>
+      </ul>
+
+    </div>
+  </div>
+</nav>

@@ -1,0 +1,82 @@
+{% load static %}
+
+{% block customcss %}
+
+{% endblock customcss %}
+
+{% block content %}
+
+<!-- ================= OUR EXPERTISE ================= -->
+<section class="jb-expertise">
+  <div class="container">
+
+    <div class="jb-section-head">
+      <span class="jb-eyebrow">What we do best</span>
+      <h2 class="jb-title">Our Expertise</h2>
+      <p class="jb-subtitle">Complete furniture solutions, crafted to bring comfort and character to every room.</p>
+    </div>
+
+    <div class="jb-expertise-grid">
+
+      <div class="jb-exp-card">
+        <div class="jb-exp-img">
+          <img src="{% static 'images/expertise/custom-design.png' %}" alt="Custom furniture design">
+        </div>
+        <div class="jb-exp-body">
+          <div class="jb-exp-icon"><span class="material-symbols-outlined">design_services</span></div>
+          <h3>Custom Furniture Design</h3>
+          <p>Pieces designed around your space, style and measurements, so everything fits perfectly.</p>
+        </div>
+      </div>
+
+      <div class="jb-exp-card">
+        <div class="jb-exp-img">
+          <img src="{% static 'images/expertise/woodwork.png' %}" alt="Solid wood craftsmanship">
+        </div>
+        <div class="jb-exp-body">
+          <div class="jb-exp-icon"><span class="material-symbols-outlined">carpenter</span></div>
+          <h3>Solid Wood Craftsmanship</h3>
+          <p>Carefully selected wood and skilled joinery for furniture that lasts for years.</p>
+        </div>
+      </div>
+
+      <div class="jb-exp-card">
+        <div class="jb-exp-img">
+          <img src="{% static 'images/expertise/sofa.png' %}" alt="Upholstery and sofas">
+        </div>
+        <div class="jb-exp-body">
+          <div class="jb-exp-icon"><span class="material-symbols-outlined">chair</span></div>
+          <h3>Upholstery &amp; Sofas</h3>
+          <p>Premium fabrics and comfortable cushioning in the colours and textures you love.</p>
+        </div>
+      </div>
+
+      <div class="jb-exp-card">
+        <div class="jb-exp-img">
+          <img src="{% static 'images/expertise/bedroom.png' %}" alt="Bedroom and dining sets">
+        </div>
+        <div class="jb-exp-body">
+          <div class="jb-exp-icon"><span class="material-symbols-outlined">bed</span></div>
+          <h3>Bedroom &amp; Dining Sets</h3>
+          <p>Matching collections that bring harmony and elegance to your home.</p>
+        </div>
+      </div>
+
+      <div class="jb-exp-card">
+        <div class="jb-exp-img">
+          <img src="{% static 'images/expertise/delivery.png' %}" alt="Delivery and installation">
+        </div>
+        <div class="jb-exp-body">
+          <div class="jb-exp-icon"><span class="material-symbols-outlined">local_shipping</span></div>
+          <h3>Delivery &amp; Installation</h3>
+          <p>Safe delivery to your door and professional assembly, ready to use.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+
+{% endblock content %}

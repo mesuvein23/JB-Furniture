@@ -1,0 +1,190 @@
+/* =========================================================
+   JB Furniture – Call to Action Banner
+   ========================================================= */
+
+:root {
+  --jb-red: #e00000;
+  --jb-red-dark: #b30000;
+  --jb-black: #111111;
+}
+
+.jb-cta {
+  position: relative;
+  padding: 110px 0;
+  text-align: center;
+  color: #ffffff;
+  overflow: hidden;
+  /* photo, with a dark gradient fallback if the image is missing */
+  background:
+    var(--jb-cta-bg, none) center / cover no-repeat,
+    linear-gradient(135deg, #1a1a1a 0%, #2b2b2b 100%);
+  background-attachment: fixed;   /* subtle parallax on desktop */
+}
+
+/* dark overlay so text stays readable on any photo */
+.jb-cta-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    135deg,
+    rgba(17, 17, 17, 0.88) 0%,
+    rgba(17, 17, 17, 0.75) 55%,
+    rgba(224, 0, 0, 0.55) 100%
+  );
+  z-index: 0;
+}
+
+.jb-cta-inner {
+  position: relative;
+  z-index: 1;
+  max-width: 820px;
+}
+
+.jb-cta-eyebrow {
+  display: inline-block;
+  color: #ffffff;
+  background: var(--jb-red);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  padding: 7px 18px;
+  border-radius: 30px;
+  margin-bottom: 22px;
+}
+
+.jb-cta-title {
+  font-size: 46px;
+  font-weight: 800;
+  line-height: 1.2;
+  text-transform: uppercase;
+  color: #ffffff;
+  margin: 0 0 20px;
+}
+
+.jb-cta-title span {
+  color: var(--jb-red);
+  display: block;
+}
+
+.jb-cta-text {
+  font-size: 17px;
+  line-height: 1.7;
+  color: #d9d9d9;
+  max-width: 600px;
+  margin: 0 auto 38px;
+}
+
+/* ---------- Buttons ---------- */
+.jb-cta-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 14px;
+}
+
+.jb-cta-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 15px 30px;
+  border-radius: 4px;
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: background 0.3s ease, color 0.3s ease, border-color 0.3s ease, transform 0.3s ease;
+}
+
+.jb-cta-btn .material-symbols-outlined {
+  font-size: 20px;
+}
+
+.jb-cta-btn--primary {
+  background: var(--jb-red);
+  color: #ffffff;
+  border: 2px solid var(--jb-red);
+  box-shadow: 0 10px 25px rgba(224, 0, 0, 0.35);
+}
+
+.jb-cta-btn--primary:hover {
+  background: var(--jb-red-dark);
+  border-color: var(--jb-red-dark);
+  color: #ffffff;
+  transform: translateY(-3px);
+}
+
+.jb-cta-btn--outline {
+  background: transparent;
+  color: #ffffff;
+  border: 2px solid rgba(255, 255, 255, 0.6);
+}
+
+.jb-cta-btn--outline:hover {
+  background: #ffffff;
+  color: var(--jb-black);
+  border-color: #ffffff;
+  transform: translateY(-3px);
+}
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
+/* ---------- Tablets (≤991px) ---------- */
+@media (max-width: 991px) {
+  .jb-cta {
+    padding: 90px 0;
+    background-attachment: scroll;   /* fixed backgrounds are buggy on mobile */
+  }
+
+  .jb-cta-title {
+    font-size: 36px;
+  }
+
+  .jb-cta-text {
+    font-size: 16px;
+  }
+}
+
+/* ---------- Phones (≤575px) ---------- */
+@media (max-width: 575px) {
+  .jb-cta {
+    padding: 65px 0;
+  }
+
+  .jb-cta-inner {
+    padding: 0 18px;
+  }
+
+  .jb-cta-eyebrow {
+    font-size: 11px;
+    margin-bottom: 18px;
+  }
+
+  .jb-cta-title {
+    font-size: 26px;
+  }
+
+  .jb-cta-text {
+    font-size: 15px;
+    margin-bottom: 30px;
+  }
+
+  /* stacked full-width buttons */
+  .jb-cta-actions {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .jb-cta-btn {
+    width: 100%;
+    padding: 14px 20px;
+  }
+
+  .jb-cta-btn:hover {
+    transform: none;
+  }
+}

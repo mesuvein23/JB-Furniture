@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% block title %}
+  <title>Categories</title>
+{% endblock title %}
+
+{% block content %}
+
+<!-- Header Section -->
+<header>
+  <div class="bg-primary text-white py-5">
+    <div class="container text-center">
+      <h1 class="display-5">Best products &<br /> brands in our store</h1>
+    </div>
+  </div>
+</header>
+
+<!-- Categories Section -->
+<section>
+  <div class="container my-5">
+    <header class="mb-4 text-center">
+      <h3 class="fw-bold">All Categories</h3>
+    </header>
+
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
+      {% for item in categories %}
+      <div class="col">
+        <a href="{% url 'products_by_category' item.slug %}" class="text-decoration-none text-dark">
+          <div class="card h-100 shadow-sm border-0">
+            <img src="{{ item.category_image.url }}" 
+                 alt="{{ item.category_name }}" 
+                 class="card-img-top img-fluid"
+                 style="object-fit: cover; height: 250px;">
+
+            <div class="card-body d-flex flex-column justify-content-center align-items-center text-center">
+              <h5 class="card-title fw-semibold" style="font-family: 'Roboto', sans-serif; font-size: 16px;">
+                {{ item.category_name }}
+              </h5>
+            </div>
+          </div>
+        </a>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+{% endblock content %}

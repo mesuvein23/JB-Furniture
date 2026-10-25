@@ -1,0 +1,23 @@
+
+
+<form action="{% url 'category_edit' object.id %}" enctype="multipart/form-data" method="POST">
+    {% csrf_token %}
+        <div class="mb-3">
+            <input type="text" name="category_name" value="{{object.category_name}}">
+        </div>
+
+        <div class="mb-3">
+            <input type="text" name="slug" value="{{ object.slug }}">
+        </div>
+
+        <div class="col-md-6">
+            <label for="description">Description</label>
+            <input type="text" name="description"  value="{{ object.description }}" class="form-control">
+        </div>
+
+        <div class="mb-3">
+            <input type="file" name="category_image" src="" value="{{ object.category_image }}" class="form-control">
+        </div>
+
+        <input type="submit" value="Update" class="btn btn-primary">
+    </form>

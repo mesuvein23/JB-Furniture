@@ -1,0 +1,135 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="box-element" id="form-wrapper">
+                <form method="POST" action="{% url 'placeorder' %}">
+                    {% csrf_token %}
+
+                    <div class="row mb-3">
+                        <div class="col">
+                            <label for="first_name">First Name</label>
+                            <input type="text" class="form-control" name="fname" placeholder="First name" required
+                                value="{{ request.user.first_name }}">
+                        </div>
+                        <div class="col">
+                            <label for="last_name">Last Name</label>
+                            <input type="text" class="form-control" name="lname" placeholder="Last name" required
+                                value="{{ request.user.last_name }}">
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="email">Email</label>
+                        <input type="email" class="form-control" name="email" placeholder="Please input your email"
+                            required value="{{ request.user.email }}">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="phone">Phone</label>
+                        <input type="text" class="form-control" name="phone" placeholder="Phone..." maxlength="10"
+                            required value="{{ userprofile.phone }}">
+                    </div>
+
+                    <div class="row mb-3">
+                        <div class="col">
+                            <label for="country">Country</label>
+                            <input type="text" class="form-control" name="country" placeholder="Country" required
+                                value="{{ userprofile.country }}">
+                        </div>
+                        <div class="col">
+                            <label for="state">State</label>
+                            <select id="inputState" name="state" class="form-select" required>
+                                <option value="">Choose...</option>
+                                <option value="Bagmati">Bagmati
+                                </option>
+                                <option value="Province 1">
+                                    Province 1</option>
+                                <option value="Gandaki">Gandaki
+                                </option>
+                                <!-- Add more states as needed -->
+                            </select>
+                        </div>
+
+                    </div>
+
+                    <div class="row mb-3">
+                        <div class="col">
+                            <label for="city">City</label>
+                            <input type="text" class="form-control" name="city" placeholder="City" required
+                                value="{{ userprofile.city }}">
+                        </div>
+                        <div class="col">
+                            <label for="zipcode">Zip</label>
+                            <input type="text" class="form-control" name="zipcode" placeholder="Zipcode" required
+                                value="{{ userprofile.zipcode }}">
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="address1" class="form-label">Address 1</label>
+                        <input type="text" class="form-control" name="address" placeholder="1234 Main St" required
+                            value="{{ userprofile.address }}">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="address2" class="form-label">Address 2</label>
+                        <input type="text" class="form-control" name="message"
+                            placeholder="Apartment, studio, or floor">
+                    </div>
+
+                    <!-- Hidden payment mode -->
+                    <input type="hidden" name="payment_mode" value="COD">
+
+                    <div class="text-end">
+                        <button type="submit" class="btn btn-danger">Submit</button>
+                    </div>
+                </form>
+
+            </div>
+
+            <br>
+            <!-- <div class="box-element hidden" id="payment-info">
+                <small>Paypal Options</small>
+                <button id="make-payment" class="btn btn-primary">Make Payment</button>
+            </div> -->
+        </div>
+
+        <div class="col-lg-6">
+            <a class="btn btn-outline-dark mb-3" href="{% url 'cart' %}">&#x2190; Back to Cart</a>
+            <h3>Order Summary</h3>
+            <hr>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">Image</th>
+                        <th scope="col">Title</th>
+                        <th scope="col">Quantity</th>
+                        <th scope="col">Price</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in cart_items %}
+                    <tr>
+                        <td>{% if item.product.get_first_image %}
+                            <img class="row-image" src="{{ item.product.get_first_image }}" height="70px" width="70px"
+                                style="object-fit: cover;" alt="{{ item.product.product_name }}">
+                            {% else %}
+                            <div class="text-muted small">No image</div>
+                            {% endif %}
+                        </td>
+                        <td>{{ item.product.product_name }}</td>
+                        <td>{{ item.quantity }}</td>
+                        <td>{{ item.product.price }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <h5>Total: Rs {{ total }}</h5>
+        </div>
+    </div>
+</div>
+{% endblock content %}
