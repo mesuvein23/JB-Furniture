@@ -9,9 +9,10 @@ from django.core.exceptions import ValidationError
 from django.core.mail import send_mail
 from django.core.paginator import Paginator
 from django.core.validators import validate_email
-from django.db.models import Q, Min, Max, Avg
 from django.shortcuts import render, redirect, get_object_or_404
 from django.utils.http import url_has_allowed_host_and_scheme
+from django.db import transaction
+from django.db.models import F, Q, Min, Max, Avg
 
 from .models import *
 from .forms import SignUpForm, EmailLoginForm
@@ -297,9 +298,19 @@ def _get_cart_items(request):
 
 def add_cart(request, product_id):
     product = get_object_or_404(Product, id=product_id)
-    cart, _ = Cart.objects.get_or_create(cart_id=_cart_id(request))
 
+    if not product.is_available or product.stock < 1:
+        messages.error(request, f"Sorry, {product.product_name} is out of stock.")
+        return redirect(product.get_url())
+
+    cart, _ = Cart.objects.get_or_create(cart_id=_cart_id(request))
     cart_item = CartItem.objects.filter(product=product, cart=cart).first()
+    in_cart = cart_item.quantity if cart_item else 0
+
+    if in_cart + 1 > product.stock:
+        messages.warning(request, f"Only {product.stock} of {product.product_name} available.")
+        return redirect('cart')
+
     if cart_item:
         cart_item.quantity += 1
         cart_item.save()
@@ -308,7 +319,6 @@ def add_cart(request, product_id):
 
     messages.success(request, 'Product added to cart.')
     return redirect('cart')
-
 
 def cart(request):
     cart_items, total, quantity = _get_cart_items(request)
@@ -354,6 +364,13 @@ def buynow(request):
     return render(request, 'customer/order/buynow.html')
 
 
+REQUIRED_ORDER_FIELDS = {
+    'fname': 'first name', 'lname': 'last name', 'email': 'email', 'phone': 'phone',
+    'address': 'address', 'city': 'city', 'state': 'state', 'country': 'country',
+    'zipcode': 'postal code', 'payment_mode': 'payment method',
+}
+
+
 @login_required
 def placeorder(request):
     if request.method != 'POST':
@@ -364,51 +381,66 @@ def placeorder(request):
         messages.warning(request, "Your cart is empty.")
         return redirect('cart')
 
-    # save the order
-    neworder = Order(
-        user=request.user,
-        fname=request.POST.get('fname'),
-        lname=request.POST.get('lname'),
-        email=request.POST.get('email'),
-        phone=request.POST.get('phone'),
-        address=request.POST.get('address'),
-        city=request.POST.get('city'),
-        state=request.POST.get('state'),
-        country=request.POST.get('country'),
-        zipcode=request.POST.get('zipcode'),
-        payment_mode=request.POST.get('payment_mode'),
-        total_price=total,
-    )
-    neworder.save()
+    # ----- 1. every delivery field must be filled in -----
+    data = {f: request.POST.get(f, '').strip() for f in REQUIRED_ORDER_FIELDS}
+    missing = [label for f, label in REQUIRED_ORDER_FIELDS.items() if not data[f]]
+    if missing:
+        messages.error(request, "Please fill in your " + ", ".join(missing) + ".")
+        return redirect('checkout')
+    try:
+        validate_email(data['email'])
+    except ValidationError:
+        messages.error(request, "Please enter a valid email address.")
+        return redirect('checkout')
 
-    # tracking number: YYYYMMDD + order id
-    neworder.tracking_no = datetime.date.today().strftime("%Y%m%d") + str(neworder.id)
-    neworder.save()
+    # ----- 2. check stock, save the order and reduce stock: all or nothing -----
+    with transaction.atomic():
+        # lock these products so two customers can't buy the last item at the same time
+        product_ids = [item.product_id for item in cart_items]
+        products = {p.id: p for p in Product.objects.select_for_update().filter(id__in=product_ids)}
 
-    # order items
-    for item in cart_items:
-        OrderItem.objects.create(
-            order=neworder,
-            product=item.product,
-            quantity=item.quantity,
-            product_price=item.product.price,
-        )
+        for item in cart_items:
+            product = products[item.product_id]
+            if not product.is_available or item.quantity > product.stock:
+                left = product.stock if product.is_available else 0
+                if left:
+                    messages.error(request, f"Only {left} of {product.product_name} left. Please update your cart.")
+                else:
+                    messages.error(request, f"Sorry, {product.product_name} is now out of stock. Please remove it from your cart.")
+                return redirect('cart')
 
-    # email to the shop (won't break checkout if email isn't set up)
-    product_list = ", ".join(item.product.product_name for item in cart_items)
+        total = sum(products[item.product_id].price * item.quantity for item in cart_items)
+
+        neworder = Order.objects.create(user=request.user, total_price=total, **data)
+        neworder.tracking_no = datetime.date.today().strftime("%Y%m%d") + str(neworder.id)
+        neworder.save(update_fields=['tracking_no'])
+
+        for item in cart_items:
+            product = products[item.product_id]
+            OrderItem.objects.create(
+                order=neworder,
+                product=product,
+                quantity=item.quantity,
+                product_price=product.price,
+            )
+            product.stock = F('stock') - item.quantity
+            product.save(update_fields=['stock'])
+
+        product_list = ", ".join(f"{products[i.product_id].product_name} × {i.quantity}" for i in cart_items)
+        cart_items.delete()
+
+    # ----- 3. email the shop (outside the transaction; never breaks checkout) -----
     send_mail(
         subject='JB Furniture - New Order Received',
-        message=f'New order {neworder.tracking_no} containing: {product_list}.',
+        message=f'New order {neworder.tracking_no} from {data["fname"]} {data["lname"]} '
+                f'({data["phone"]}): {product_list}. Total Rs {total}.',
         from_email=settings.EMAIL_HOST_USER,
         recipient_list=['jayabarahifurniture@gmail.com'],
         fail_silently=True,
     )
 
-    cart_items.delete()
-
     messages.success(request, f"Order placed! Your tracking number is {neworder.tracking_no}. You can follow it in My Orders.")
     return redirect('my_orders')
-
 
 # ================= ACCOUNTS =================
 
